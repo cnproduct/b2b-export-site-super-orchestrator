@@ -1,0 +1,138 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cnproduct/b2b-export-site-super-orchestrator/main/schemas/lifecycle.schema.json",
+  "project_name": "Sample B2B Global Portal",
+  "domain": "example.com",
+  "base_url": "https://www.example.com",
+  "industry": "general_manufacturing",
+  "archetype": "precision_engineering",
+  "version": "1.0.0",
+  "current_stage": 1,
+  "overall_health_score": 0.0,
+  "last_orchestrated_at": null,
+  "stages": {
+    "stage_1_dna_truth": {
+      "name": "企业真实基因与资质真理建档",
+      "status": "pending",
+      "invoked_skills": ["exporter-profile-skill", "product-truth-builder"],
+      "artifacts": {
+        "public_facts": "content/public-facts.json",
+        "fact_ledger": "content/fact-lock-ledger.json"
+      },
+      "gate_checks": {
+        "fact_modules_completed": 0,
+        "zero_unverified_claims": false
+      },
+      "passed_at": null
+    },
+    "stage_2_icp_standards": {
+      "name": "目标买家画像、JTBD 与欧亚标准矩阵",
+      "status": "pending",
+      "invoked_skills": ["define-buyer-icp", "product-search-mapping-skill", "analyze-country-market"],
+      "artifacts": {
+        "buyer_strategy": "docs/seo/buyer-strategy.md",
+        "keyword_tree": "docs/seo/keyword-tree.json",
+        "standards_matrix": "docs/seo/standards-cross-reference.json"
+      },
+      "gate_checks": {
+        "buyer_roles_covered": [],
+        "standards_mapped": []
+      },
+      "passed_at": null
+    },
+    "stage_3_ia_sitemaps": {
+      "name": "信息架构规划、动态 Sitemaps 与规范标签契约",
+      "status": "pending",
+      "invoked_skills": ["B2B Portal Builder with Sitemaps", "b2b-geo-portal-builder"],
+      "artifacts": {
+        "core_sitemap": "dist/sitemap.xml",
+        "dpp_sitemap": "dist/sitemap-dpp.xml"
+      },
+      "gate_checks": {
+        "clean_urls_enforced": false,
+        "self_referencing_canonical_ratio": 0.0,
+        "zero_parameterized_urls_in_sitemap": false
+      },
+      "passed_at": null
+    },
+    "stage_4_vi_antislop": {
+      "name": "视觉识别系统、反 AI-Slop UI 与设计令牌",
+      "status": "pending",
+      "invoked_skills": ["brandvision", "brand-visual-director", "layout-typography-auditor"],
+      "artifacts": {
+        "design_tokens": "src/styles/design-tokens.css",
+        "ui_audit_report": "docs/audit/typography-report.json"
+      },
+      "gate_checks": {
+        "contrast_ratio_min": 0.0,
+        "zero_neon_gradients": false,
+        "zero_ai_slop_cliches": false
+      },
+      "passed_at": null
+    },
+    "stage_5_ssg_madpp": {
+      "name": "同源静态编译、MA-DPP 欧盟护照与 Clean URLs",
+      "status": "pending",
+      "invoked_skills": ["ma-dpp-certification-master", "build_dpp_static_pages.py"],
+      "artifacts": {
+        "dpp_pages_dir": "dist/dpp/",
+        "dpp_catalog": "content/ma_dpp_catalog.json"
+      },
+      "gate_checks": {
+        "dpp_pages_generated": 0,
+        "espr_iso15459_schema_valid": false,
+        "static_html_served_with_200": false
+      },
+      "passed_at": null
+    },
+    "stage_6_geo_graph": {
+      "name": "全球多引擎 GEO、五层 AI 端点与知识图谱互锁",
+      "status": "pending",
+      "invoked_skills": ["b2b-gemini-geo-citation-engine", "b2b-foss-lubricants-builder"],
+      "artifacts": {
+        "llms_txt": "dist/llms.txt",
+        "llms_full_txt": "dist/llms-full.txt",
+        "ai_endpoints_dir": "dist/ai/"
+      },
+      "gate_checks": {
+        "citability_score_avg": 0.0,
+        "bluf_ign_nested_blocks": false,
+        "wikidata_sameas_interlocked": false
+      },
+      "passed_at": null
+    },
+    "stage_7_workbench_rfq": {
+      "name": "零摩擦工作台、海运双模算力与 RFQ 守护",
+      "status": "pending",
+      "invoked_skills": ["design-commercial-offer", "rfq_daemon.py", "design_math.py"],
+      "artifacts": {
+        "rfq_endpoint": "/api/inquiry",
+        "container_calc": "dist/tools/container-calculator.html"
+      },
+      "gate_checks": {
+        "hmac_honeypot_active": false,
+        "dual_mode_shipping_supported": false,
+        "tier3_risk_reversal_cards": false
+      },
+      "passed_at": null
+    },
+    "stage_8_gsc_continuous": {
+      "name": "GSC 自动化取证修复与双循环持续收录飞轮",
+      "status": "pending",
+      "invoked_skills": [
+        "cloudflare-indexnow-traffic-optimizer",
+        "reddit-b2b-b2c-geo-scheduler",
+        "gsc_ego_operator.js"
+      ],
+      "artifacts": {
+        "gsc_validation_state": "docs/seo/gsc-validation-log.json",
+        "indexnow_state": "private/indexnow-state.json"
+      },
+      "gate_checks": {
+        "all_6_gsc_reasons_validated": false,
+        "indexnow_cold_page_boost_enabled": false,
+        "reddit_bimonthly_scheduler_active": false
+      },
+      "passed_at": null
+    }
+  }
+}
