@@ -1,10 +1,11 @@
 # B2B Export Site Super Orchestrator · 全生命周期 Master 总控 Skill
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/cnproduct/b2b-export-site-super-orchestrator)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/cnproduct/b2b-export-site-super-orchestrator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Coverage: 90+ Skills](https://img.shields.io/badge/Skills%20Orchestrated-90+-green.svg)](references/skill-dependency-matrix.md)
+[![Fleet Audited: 28 Sites](https://img.shields.io/badge/Fleet%20Audited-28%20Sites-purple.svg)](references/multi-site-audit-and-optimization-roadmap.md)
 
-**全生命周期外贸出海独立站 Master 总控调度引擎**：以唯一状态机契约 (`site-lifecycle.json`) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能。
+**全生命周期外贸出海独立站 Master 总控调度引擎**：以唯一状态机契约 (`site-lifecycle.json`) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能，支持对本机全部 28 个已建出海客户站点的全景并发体检与批量 GSC 自动排障。
 
 ---
 
@@ -22,42 +23,54 @@ flowchart LR
     S8 --> Flywheel["双循环持续增长飞轮<br>(IndexNow 40% + Reddit引流)"]
 ```
 
-| 阶段 | 阶段名称 | 核心职能 | 核心联动子技能 (90+ Skills) |
-|:---:|---|---|---|
-| **01** | **企业真实基因与资质真理建档 (DNA & Truth)** | 21 模块事实档案；资质证书编号锁定；事实、观察、假设三层隔离 | `exporter-profile-skill`, `product-truth-builder`, `ingest-enterprise-assets` |
-| **02** | **目标买家画像、JTBD 与欧亚标准矩阵 (ICP & Standards)** | 采购委员会 4 角色决策弹药；6 大商业意图分支词树；美标 ASTM vs 德标 DIN vs 俄标 ГОСТ 对照 | `define-buyer-icp`, `product-search-mapping-skill`, `analyze-country-market` |
-| **03** | **信息架构规划、动态 Sitemaps 与规范标签契约 (IA & Sitemaps)** | 短路径 Clean URLs 规范；拆分主站 `sitemap.xml` 与合规 `sitemap-dpp.xml`；100% 自引用 Canonical | `B2B Portal Builder with Sitemaps`, `b2b-geo-portal-builder` |
-| **04** | **视觉识别系统、反 AI-Slop UI 与设计令牌 (VI & Anti-Slop)** | 四大工业原型配色；OKLCH 染色中性色；禁用霓虹渐变与 `shadow-xl`；字体与排版合规审计 | `brandvision`, `brand-visual-director`, `svg-logo-designer`, `layout-typography-auditor` |
-| **05** | **同源静态编译、MA-DPP 欧盟护照与 Clean URLs (SSG & MA-DPP)** | 单一事实源预渲染；MA-DPP 独立静态着陆页（`/dpp-{sku}`）与 ISO 15459 结构化数据；Anti-FOUC 四大防线 | `ma-dpp-certification-master`, `build_dpp_static_pages.py`, 垂直行业 SSG 技能库 |
-| **06** | **全球多引擎 GEO、五层 AI 端点与知识图谱互锁 (GEO & Graph)** | 134–167 词直答块（BLUF+IGN）；`/llms.txt` (v2) 与 `/ai/*.json`；Wikidata 永久实体 QID 双向互锁；Yandex Clean-param 与俄语直答 | `b2b-gemini-geo-citation-engine`, `b2b-foss-lubricants-builder` |
-| **07** | **零摩擦工作台、海运双模算力与 RFQ 守护 (Workbench & RFQ)** | 免注册首屏规格/BOM/装柜测算器；体积与重货限重（26.5T）双模装柜算力；三级风险逆转询盘卡；HMAC 蜜罐防刷守护 | `design-commercial-offer`, `design_math.py`, `rfq_daemon.py` |
-| **08** | **GSC 自动化取证修复与双循环持续收录飞轮 (GSC & Flywheel)** | `ego-browser` 自动化修复 GSC 6 大未收录原因并一键触发 Validation；IndexNow 40% 冷页轮巡保鲜 + Reddit 工程师引流 | `scripts/gsc_ego_operator.js`, `cloudflare-indexnow-traffic-optimizer`, `reddit-b2b-b2c-geo-scheduler` |
+---
+
+## 📊 本机 28 个出海客户站点体检与覆盖概览
+
+经过 `scripts/fleet_site_auditor.py` 全量并发体检，当前 28 个客户站点的实测运行态如下：
+- **在线率**：`24 / 28` 站点在线运行（占比 85.7%）
+- **MA-DPP 独立护照地图**：`13 / 28` 站点已上线 `sitemap-dpp.xml`（其余 10 个在线站点需补全静态化落地页）
+- **生成式 AI 端点**：`23 / 28` 站点已部署 `/llms.txt` (v2)
+
+### 典型站点与行业覆盖矩阵：
+1. **半导体/芯片**：`cosinechips.com` (100分)
+2. **工业润滑油**：`fosslubricants.com` (100分)
+3. **天然文化石**：`tianyalimestone.com` (100分)
+4. **战术鞋靴/鞋服工贸**：`widewayfootwear.com` (100分), `widewaygroup.com` (85分), `widewaybags.com` (85分), `tianmaoshoefactory.com` (100分), `dingmaoshoes.com` (需迁移)
+5. **卫生用品/母婴医护**：`chinabaronhygiene.com` (100分), `leohygiene.com` (85分), `shdhygiene.com` (85分) -> 联动 `b2b-hygiene-export-site-builder`
+6. **便当盒/餐厨日用品**：`custombentofactory.com` (100分), `eazylunch.com` (85分), `naiketableware.com` (85分)
+7. **早教益智玩具**：`wishtimetoys.com` (100分), `chengjitoy.com` (100分)
+8. **数控石材机床**：`hlstonemachine.com` (100分), `shengdamachinery.com` (40分)
+9. **新能源工商业储能**：`sossenergy.com` (100分) -> 联动 `b2b-energy-storage-site-builder`
+10. **卫浴五金/应急消防/轻工**：`huifengsanitary.com` (100分), `rrenn.com` (100分), `jinyuanfire.com`, `meihuaumbrella.com`
+
+详见 [本机全部会话 28 个出海站点全景体检与全流程深度优化方案](references/multi-site-audit-and-optimization-roadmap.md)。
 
 ---
 
-## ⚡ 快速开始
+## ⚡ 快速开始与核心工具集
 
-### 1. 初始化项目生命周期中枢
 ```bash
+# 1. 运行全站群 28 个客户出海独立站自动化并发体检
+python3 scripts/fleet_site_auditor.py
+
+# 2. 对已验证的客户域名站群执行批量 GSC 自动化修复与 Validation 触发
+ego-browser nodejs scripts/gsc_fleet_operator.js "cosinechips.com,leohygiene.com,tianmaoshoefactory.com,shdhygiene.com"
+
+# 3. 初始化新出海独立站全生命周期中枢
 python3 scripts/super_orchestrator.py init \
   --domain example.com \
   --industry electronics \
   --out /path/to/project
-```
 
-### 2. 检查全生命周期阶段与健康度
-```bash
+# 4. 检查全生命周期阶段与健康度
 python3 scripts/super_orchestrator.py status --project /path/to/project
-```
 
-### 3. 执行特定阶段的确定性闸门审计
-```bash
+# 5. 执行特定阶段的确定性闸门审计
 python3 scripts/super_orchestrator.py audit-gate --stage 5 --project /path/to/project
-```
 
-### 4. 自动化修复 Google Search Console 6 大未收录原因
-```bash
-ego-browser nodejs scripts/gsc_ego_operator.js example.com validate-all
+# 6. 运行全系统回归自检
+python3 scripts/super_orchestrator.py self-test
 ```
 
 ---
@@ -65,6 +78,7 @@ ego-browser nodejs scripts/gsc_ego_operator.js example.com validate-all
 ## 📚 核心文档索引
 
 - [全生命周期 Master 调度编排协议规范](references/lifecycle-orchestrator-spec.md)
+- [本机全部会话 28 个出海站点全景体检与全流程深度优化方案](references/multi-site-audit-and-optimization-roadmap.md)
 - [90+ 出海细分技能依赖与调度映射矩阵](references/skill-dependency-matrix.md)
 - [GSC 深度取证与全项自动化修复 SOP](references/gsc-forensic-remediation-sop.md)
 - [MA-DPP 欧盟合规与静态落地页架构指南](references/ma-dpp-compliance-and-static-architecture.md)

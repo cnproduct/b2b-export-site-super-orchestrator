@@ -1,13 +1,13 @@
 ---
 name: b2b-export-site-super-orchestrator
-description: 全生命周期外贸出海独立站 Master 总控调度 Skill (V1.0.0)：以唯一状态机契约 (site-lifecycle.json) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能。涵盖企业真实 DNA 事实建档 (Stage 1)、买家画像与欧亚国际标准矩阵 (Stage 2)、短路径架构与多 Sitemap 规范契约 (Stage 3)、反 AI-Slop 两轮工业视觉与 OKLCH 字阶 (Stage 4)、同源静态编译与 MA-DPP 欧盟数字产品护照 (Stage 5)、全球多引擎 GEO 直答与知识图谱互锁 (Stage 6)、首屏零摩擦工作台与双模海运装柜算力 (Stage 7)、Google Search Console 6 大未收录自动化修复与双循环持续收录飞轮 (Stage 8)。
+description: 全生命周期外贸出海独立站 Master 总控调度 Skill (V1.1.0)：以唯一状态机契约 (site-lifecycle.json) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能。支持本机全部 28 个出海站点全景体检与批量优化。涵盖企业真实 DNA 事实建档 (Stage 1)、买家画像与欧亚国际标准矩阵 (Stage 2)、短路径架构与多 Sitemap 规范契约 (Stage 3)、反 AI-Slop 两轮工业视觉与 OKLCH 字阶 (Stage 4)、同源静态编译与 MA-DPP 欧盟数字产品护照 (Stage 5)、全球多引擎 GEO 直答与知识图谱互锁 (Stage 6)、首屏零摩擦工作台与双模海运装柜算力 (Stage 7)、Google Search Console 6 大未收录自动化修复与双循环持续收录飞轮 (Stage 8)。
 ---
 
-# B2B Export Site Super Orchestrator · 全生命周期 Master 总控 (V1.0.0)
+# B2B Export Site Super Orchestrator · 全生命周期 Master 总控 (V1.1.0)
 
 将企业真实事实转化为海外大买家深度信任、全球工程选型与询盘转化，且 Google、Bing、Yandex 及生成式 AI（ChatGPT Search、Perplexity、Claude、Google AI Overviews、Яндекс Нейро）高置信引用的世界级出海品牌独立站。
 
-本 Skill 专职担任**出海独立站建设与优化全生命周期的总指挥中心**。它通过严格的状态机契约 `site-lifecycle.json` 贯穿 8 大阶段，自动评测前置条件与闸门标准，按需调度本地与 GitHub 上 90+ 个细分专项技能。
+本 Skill 专职担任**出海独立站建设与优化全生命周期的总指挥中心**。它通过严格的状态机契约 `site-lifecycle.json` 贯穿 8 大阶段，自动评测前置条件与闸门标准，按需调度本地与 GitHub 上 90+ 个细分专项技能，并提供对全站群（28 个已建客户站点）的并发体检与批量 GSC 自动排障。
 
 ```mermaid
 flowchart TD
@@ -100,8 +100,10 @@ flowchart TD
 ### 阶段 5：同源静态编译、MA-DPP 欧盟护照与 Clean URLs (SSG & MA-DPP)
 - **目标**：以单一事实源驱动 HTML/JSON-LD 预渲染；依据 EU ESPR 渲染独立 MA-DPP 落地页（`/dpp-{sku}`）。
 - **调度技能**：
-  - `ma-dpp-certification-master` + `scripts/build_dpp_static_pages.py`：生成静态 MA-DPP 护照着陆页；
-  - 垂直行业 SSG：`b2b-limestone-geo-site-builder`（石材）、`wideway-export-site-builder-skill`（机械装备）、`dingmao-shoes-site-builder`（鞋服）、`b2b-foss-lubricants-builder`（润滑油）、`b2b-bento-geo-site-builder`（餐厨）。
+  - `ma-dpp-certification-master` + `scripts/build_dpp_static_pages.py`：生成通用静态 MA-DPP 护照着陆页；
+  - `b2b-hygiene-export-site-builder`：针对 `leohygiene.com`、`shdhygiene.com` 的纸尿裤/经期裤/个护无纺布专属 SSG；
+  - `b2b-energy-storage-site-builder`：针对 `sossenergy.com` 的工商业液冷储能与欧盟新电池法案护照 SSG；
+  - 垂直行业 SSG 库：`b2b-limestone-geo-site-builder`（石材）、`wideway-export-site-builder-skill`（装备鞋服）、`dingmao-shoes-site-builder`（赤足鞋）、`b2b-foss-lubricants-builder`（润滑油）、`b2b-stone-machinery-site-builder`（石材机床）、`b2b-bento-geo-site-builder`（餐厨）、`wishtimetoys-site-builder`（玩具）。
 - **交付物**：`dist/dpp/*.html`、`dist/sitemap-dpp.xml`、无 JS 下完整可读的静态页面。
 - **阶段闸门**：全量 DPP 页面 200 OK，包含 ISO/IEC 15459 结构化微数据。
 
@@ -126,7 +128,9 @@ flowchart TD
 ### 阶段 8：GSC 自动化取证修复与双循环持续收录飞轮 (GSC & Flywheel)
 - **目标**：通过 `ego-browser` 自动化排查并一键触发 GSC 6 大未收录原因验证；运行 IndexNow 冷页保鲜与 Reddit 引流。
 - **调度技能**：
-  - `scripts/gsc_ego_operator.js`：自动化管理 GSC 后台，触发 6 大未收录原因 Validation；
+  - `scripts/gsc_ego_operator.js`：单站点 GSC 后台自动化验证与 6 大原因一键修复；
+  - `scripts/gsc_fleet_operator.js`：28 个出海站点站群 GSC 自动化循环巡检与批量修复；
+  - `scripts/fleet_site_auditor.py`：全站群 HTTP/Sitemap/DPP/llms.txt 自动化并发探测；
   - `cloudflare-indexnow-traffic-optimizer`：秒级广播新页面，40% 动态轮巡唤醒全站冷页；
   - `reddit-b2b-b2c-geo-scheduler`：双月度工程师问答排期，输出高质量解决方案引流。
 - **交付物**：GSC 6 大原因全部显示 `🕒 Started`、`private/indexnow-state.json`、双月度引流排期。
@@ -137,24 +141,24 @@ flowchart TD
 ## 🛠️ CLI 命令与操作指南
 
 ```bash
-# 1. 初始化新独立站生命周期中枢
+# 1. 运行全站群 28 个客户出海独立站自动化并发体检
+python3 scripts/fleet_site_auditor.py
+
+# 2. 对已验证的客户域名站群执行批量 GSC 自动化修复与 Validation 触发
+ego-browser nodejs scripts/gsc_fleet_operator.js "cosinechips.com,leohygiene.com,tianmaoshoefactory.com,shdhygiene.com"
+
+# 3. 初始化新出海独立站全生命周期中枢
 python3 scripts/super_orchestrator.py init \
   --domain example.com \
   --industry electronics \
   --name "Example Global Semiconductor Portal" \
   --out /path/to/project
 
-# 2. 检查当前项目全生命周期状态与各阶段闸门
+# 4. 检查当前项目全生命周期状态与各阶段闸门
 python3 scripts/super_orchestrator.py status --project /path/to/project
 
-# 3. 对指定阶段执行确定性闸门审计 (例如 Stage 5 静态编译与 MA-DPP)
+# 5. 对指定阶段执行确定性闸门审计 (例如 Stage 5 静态编译与 MA-DPP)
 python3 scripts/super_orchestrator.py audit-gate --stage 5 --project /path/to/project
-
-# 4. 执行 Google Search Console 自动化巡检与 6 大未收录原因一键验证
-ego-browser nodejs scripts/gsc_ego_operator.js example.com validate-all
-
-# 5. 生成 MA-DPP 欧盟数字产品护照静态着陆页
-python3 scripts/build_dpp_static_pages.py /path/to/project/content/ma_dpp_catalog.json /path/to/project/dist https://www.example.com
 
 # 6. 运行全系统自检
 python3 scripts/super_orchestrator.py self-test
@@ -165,6 +169,7 @@ python3 scripts/super_orchestrator.py self-test
 ## 📚 核心参考文档索引
 
 - [全生命周期 Master 调度编排协议规范](references/lifecycle-orchestrator-spec.md)
+- [本机全部会话 28 个出海站点全景体检与全流程深度优化方案](references/multi-site-audit-and-optimization-roadmap.md)
 - [90+ 出海细分技能依赖与调度映射矩阵](references/skill-dependency-matrix.md)
 - [GSC 深度取证与全项自动化修复 SOP](references/gsc-forensic-remediation-sop.md)
 - [MA-DPP 欧盟合规与静态落地页架构指南](references/ma-dpp-compliance-and-static-architecture.md)
