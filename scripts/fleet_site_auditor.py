@@ -53,7 +53,7 @@ CTX = ssl.create_default_context()
 CTX.check_hostname = False
 CTX.verify_mode = ssl.CERT_NONE
 
-def test_url(url: str, timeout: float = 3.5) -> bool:
+def test_url(url: str, timeout: float = 7.0) -> bool:
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) FleetAuditor/1.0"})
         with urllib.request.urlopen(req, timeout=timeout, context=CTX) as resp:
