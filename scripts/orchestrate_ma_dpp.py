@@ -16,7 +16,7 @@ import json
 import argparse
 import subprocess
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, Optional
 
 GLOBAL_SKILLS_DIR = Path.home() / ".gemini" / "config" / "skills"
@@ -204,7 +204,7 @@ def run_social_publisher_pipeline(project_dir: Path, domain: str, industry: str,
     if not manifest_file.exists():
         log(f"Synthesizing standard {days}-day B2B campaign manifest...", "INFO")
         manifest_items = []
-        start_date = datetime.utcnow()
+        start_date = datetime.now(timezone.utc)
         times = ["09:15", "14:30", "10:45", "16:15", "11:30"]
         for d in range(1, days + 1):
             sample_sku = catalog[(d - 1) % len(catalog)]["sku"]

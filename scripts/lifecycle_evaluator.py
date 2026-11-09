@@ -53,8 +53,9 @@ def evaluate_stage_3(project_dir: Path) -> Dict[str, Any]:
 
     try:
         content = sitemap.read_text(encoding="utf-8")
-        has_html_ext = ".html" in content
-        has_query_params = "?" in content
+        lines_no_xml = [l for l in content.splitlines() if not l.strip().startswith("<?xml")]
+        has_html_ext = any(".html" in l for l in lines_no_xml)
+        has_query_params = any("?" in l for l in lines_no_xml)
         score = 100.0
         if has_html_ext: score -= 30.0
         if has_query_params: score -= 40.0
