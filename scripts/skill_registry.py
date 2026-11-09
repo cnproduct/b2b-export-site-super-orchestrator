@@ -5,6 +5,8 @@ scripts/skill_registry.py
 Dynamic Skill Registry & Dependency Resolver for b2b-export-site-super-orchestrator.
 Catalogs 90+ specialized B2B export, site-building, SEO, GEO, and verification skills
 across local configurations and cnproduct GitHub repositories.
+Fuses ma-dpp-certification-master (Stage 5) and b2b-ma-dpp-social-publisher (Stage 8)
+into an automated, end-to-end MA-DPP compliance and omnichannel social distribution engine.
 """
 
 import os
@@ -42,8 +44,9 @@ STAGE_SKILL_MAPPING = {
         {"id": "cc-design", "role": "Cross-Channel Design Language Audit", "tier": "support"},
     ],
     5: [
-        {"id": "ma-dpp-certification-master", "role": "EU ESPR & ISO 15459 Digital Product Passport Data Model", "tier": "primary"},
+        {"id": "ma-dpp-certification-master", "role": "EU ESPR & ISO 15459 Digital Product Passport Data Model & Lab Endorsement", "tier": "primary"},
         {"id": "build_dpp_static_pages.py", "role": "Standalone Static DPP Landing Page & XML Compiler", "tier": "builtin"},
+        {"id": "orchestrate_ma_dpp.py", "role": "Master Bridge Orchestrator for DPP Certification & Social Publishing", "tier": "builtin"},
         {"id": "b2b-hygiene-export-site-builder", "role": "Hygiene, Diaper & Medical Nonwoven Export SSG", "tier": "vertical"},
         {"id": "b2b-energy-storage-site-builder", "role": "Commercial BESS & EU Battery Passport SSG", "tier": "vertical"},
         {"id": "b2b-limestone-geo-site-builder", "role": "Limestone / Architectural Stone SSG", "tier": "vertical"},
@@ -65,12 +68,26 @@ STAGE_SKILL_MAPPING = {
         {"id": "rfq_daemon.py", "role": "HMAC Honeypot Anti-Spam RFQ Microservice", "tier": "builtin"},
     ],
     8: [
+        {"id": "b2b-ma-dpp-social-publisher", "role": "B2B MA-DPP 60-Day Tri-Platform (LinkedIn + Facebook + Reddit) Social Publisher & Scheduler", "tier": "primary"},
+        {"id": "cloudflare-indexnow-traffic-optimizer", "role": "IndexNow Instant Push & 40% Cold-Page Boost", "tier": "primary"},
+        {"id": "reddit-b2b-b2c-geo-scheduler", "role": "Bi-Monthly Engineer Citation & Knowledge Nurture", "tier": "primary"},
         {"id": "gsc_ego_operator.js", "role": "Single Site GSC Validation Trigger (All 6 Reasons)", "tier": "builtin"},
         {"id": "gsc_fleet_operator.js", "role": "Multi-Domain Fleet GSC Automated Remediation", "tier": "builtin"},
         {"id": "fleet_site_auditor.py", "role": "28 Customer Sites Automated Diagnostic Scanner", "tier": "builtin"},
-        {"id": "cloudflare-indexnow-traffic-optimizer", "role": "IndexNow Instant Push & 40% Cold-Page Boost", "tier": "primary"},
-        {"id": "reddit-b2b-b2c-geo-scheduler", "role": "Bi-Monthly Engineer Citation & Knowledge Nurture", "tier": "primary"},
     ],
+}
+
+DPP_SUBSYSTEM = {
+    "name": "MA-DPP End-to-End Compliance & Omnichannel Growth Subsystem",
+    "passport_engine": "ma-dpp-certification-master",
+    "social_engine": "b2b-ma-dpp-social-publisher",
+    "stages": [5, 8],
+    "standards": ["EU ESPR 2024/1781", "ISO/IEC 15459 Node 100015", "SGS CSTC", "SATRA TM133", "AEC-Q100"],
+    "platforms": ["LinkedIn Company Page", "Facebook Meta Business Suite", "Reddit Technical Communities", "Google/Bing IndexNow"],
+    "github_repos": {
+        "passport": "https://github.com/cnproduct/ma-dpp-certification-master",
+        "social": "https://github.com/cnproduct/b2b-ma-dpp-social-publisher"
+    }
 }
 
 def scan_installed_skills() -> Dict[str, Path]:
@@ -92,6 +109,37 @@ def scan_installed_skills() -> Dict[str, Path]:
 def get_stage_skills(stage_num: int) -> List[Dict[str, Any]]:
     return STAGE_SKILL_MAPPING.get(stage_num, [])
 
+def resolve_dpp_pipeline() -> Dict[str, Any]:
+    """
+    Checks availability of the fused MA-DPP pipeline components.
+    Returns status, installed paths, and execution readiness.
+    """
+    installed = scan_installed_skills()
+    has_passport = "ma-dpp-certification-master" in installed
+    has_social = "b2b-ma-dpp-social-publisher" in installed
+    
+    passport_path = installed.get("ma-dpp-certification-master")
+    social_path = installed.get("b2b-ma-dpp-social-publisher")
+
+    return {
+        "subsystem": DPP_SUBSYSTEM["name"],
+        "ready": has_passport and has_social,
+        "passport_engine": {
+            "id": "ma-dpp-certification-master",
+            "available": has_passport,
+            "path": str(passport_path) if passport_path else None,
+            "stage": 5
+        },
+        "social_engine": {
+            "id": "b2b-ma-dpp-social-publisher",
+            "available": has_social,
+            "path": str(social_path) if social_path else None,
+            "stage": 8
+        },
+        "standards": DPP_SUBSYSTEM["standards"],
+        "platforms": DPP_SUBSYSTEM["platforms"]
+    }
+
 def audit_registry() -> Dict[str, Any]:
     installed = scan_installed_skills()
     report = {}
@@ -108,6 +156,7 @@ def audit_registry() -> Dict[str, Any]:
                 "available": is_installed,
                 "path": str(installed.get(sid, "Built-in / Script"))
             })
+    report["dpp_subsystem"] = resolve_dpp_pipeline()
     return report
 
 if __name__ == "__main__":

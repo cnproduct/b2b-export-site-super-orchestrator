@@ -129,15 +129,18 @@ flowchart TD
     },
     "stage_5_ssg_madpp": {
       "status": "passed",
-      "invoked_skills": ["ma-dpp-certification-master", "build_dpp_static_pages.py"],
+      "invoked_skills": ["ma-dpp-certification-master", "orchestrate_ma_dpp.py", "build_dpp_static_pages.py"],
       "artifacts": {
         "dpp_pages_dir": "dist/dpp/",
-        "dpp_catalog": "content/ma_dpp_catalog.json"
+        "dpp_catalog": "data/ma_dpp_catalog.json",
+        "dpp_hub": "dist/ma-dpp/index.html",
+        "dpp_sitemap": "dist/sitemap-dpp.xml"
       },
       "gate_checks": {
-        "dpp_pages_generated": 50,
+        "dpp_pages_generated": 601,
         "espr_iso15459_schema_valid": true,
-        "static_html_served_with_200": true
+        "static_html_served_with_200": true,
+        "sitemap_dpp_clean_urls": true
       },
       "passed_at": "2026-10-20T16:00:00Z"
     },
@@ -173,11 +176,27 @@ flowchart TD
     "stage_8_gsc_continuous": {
       "status": "passed",
       "invoked_skills": [
+        "b2b-ma-dpp-social-publisher",
         "cloudflare-indexnow-traffic-optimizer",
         "reddit-b2b-b2c-geo-scheduler",
         "gsc_ego_operator.js"
       ],
       "artifacts": {
+        "social_manifest": "social_cards/campaign_manifest_60_days.json",
+        "social_cards_dir": "social_cards/images/",
+        "social_schedule_status": "social_cards/schedule_status_60_days.json",
+        "gsc_validation_state": "docs/seo/gsc-validation-log.json",
+        "indexnow_state": "private/indexnow-state.json"
+      },
+      "gate_checks": {
+        "all_6_gsc_reasons_validated": true,
+        "social_campaign_manifest_compiled": true,
+        "infographics_rendered_1080x1350": true,
+        "indexnow_cold_page_boost_enabled": true,
+        "reddit_bimonthly_scheduler_active": true
+      },
+      "passed_at": "2026-11-08T18:00:00Z"
+    }
         "gsc_validation_state": "docs/seo/gsc-validation-log.json",
         "indexnow_state": "private/indexnow-state.json"
       },

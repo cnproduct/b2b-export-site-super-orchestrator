@@ -81,16 +81,71 @@ def evaluate_stage_4(project_dir: Path) -> Dict[str, Any]:
     }
 
 def evaluate_stage_5(project_dir: Path) -> Dict[str, Any]:
+    # 1. Check sitemap-dpp.xml
     dpp_sitemap = project_dir / "dist" / "sitemap-dpp.xml"
     if not dpp_sitemap.exists():
         dpp_sitemap = project_dir / "sitemap-dpp.xml"
+    has_dpp_sitemap = dpp_sitemap.exists()
+
+    # 2. Check MA-DPP catalog
+    catalog_path = project_dir / "data" / "ma_dpp_catalog.json"
+    if not catalog_path.exists():
+        catalog_path = project_dir / "content" / "ma_dpp_catalog.json"
+    has_catalog = catalog_path.exists()
     
-    passed = dpp_sitemap.exists()
+    sku_count = 0
+    has_node100015 = False
+    has_ledger_hash = False
+    if has_catalog:
+        try:
+            with open(catalog_path, "r", encoding="utf-8") as f:
+                cat_data = json.load(f)
+            products = cat_data.get("products", []) if isinstance(cat_data, dict) else cat_data
+            if isinstance(products, list):
+                sku_count = len(products)
+                if sku_count > 0:
+                    first = products[0]
+                    str_rep = str(first)
+                    if "100015" in str_rep or any(k in first for k in ("node100015_identifier", "ma_code_iso", "ma_code_root", "ma_dpp_id", "passport_id")):
+                        has_node100015 = True
+                    if any(k in first for k in ("ledger_hash", "sha256_ledger_hash", "integrity_hash", "hash")):
+                        has_ledger_hash = True
+        except Exception:
+            pass
+
+    # 3. Check hub and static DPP pages directory
+    hub_candidates = [
+        project_dir / "ma-dpp.html",
+        project_dir / "ma-dpp" / "index.html",
+        project_dir / "dist" / "ma-dpp.html",
+        project_dir / "dist" / "ma-dpp" / "index.html"
+    ]
+    has_hub = any(h.exists() for h in hub_candidates)
+
+    dpp_dir = project_dir / "dpp"
+    if not dpp_dir.exists():
+        dpp_dir = project_dir / "dist" / "dpp"
+    has_dpp_pages = dpp_dir.is_dir() and any(dpp_dir.iterdir())
+
+    score = 0.0
+    if has_dpp_sitemap: score += 25.0
+    if has_catalog: score += 35.0
+    if has_hub: score += 15.0
+    if has_dpp_pages: score += 15.0
+    if has_node100015 and has_ledger_hash: score += 10.0
+
+    passed = score >= 70.0
     return {
         "passed": passed,
-        "score": 100.0 if passed else 40.0,
-        "has_dpp_sitemap": passed,
-        "reason": "OK" if passed else "Missing sitemap-dpp.xml for MA-DPP architecture"
+        "score": score,
+        "has_dpp_sitemap": has_dpp_sitemap,
+        "has_catalog": has_catalog,
+        "sku_count": sku_count,
+        "has_node100015": has_node100015,
+        "has_ledger_hash": has_ledger_hash,
+        "has_hub": has_hub,
+        "has_dpp_pages": has_dpp_pages,
+        "reason": "OK" if passed else "Missing sitemap-dpp.xml, ma_dpp_catalog.json, /ma-dpp hub, or dpp pages"
     }
 
 def evaluate_stage_6(project_dir: Path) -> Dict[str, Any]:
@@ -116,13 +171,49 @@ def evaluate_stage_7(project_dir: Path) -> Dict[str, Any]:
     }
 
 def evaluate_stage_8(project_dir: Path) -> Dict[str, Any]:
-    # GSC validation log
+    # 1. GSC validation log
     gsc_log = project_dir / "docs" / "seo" / "gsc-validation-log.json"
-    passed = gsc_log.exists()
+    gsc_passed = gsc_log.exists()
+
+    # 2. MA-DPP Social Publisher Artifacts (b2b-ma-dpp-social-publisher)
+    social_manifest = project_dir / "social_cards" / "campaign_manifest_60_days.json"
+    if not social_manifest.exists():
+        social_manifest = project_dir / "campaign_manifest_60_days.json"
+    has_social_manifest = social_manifest.exists()
+
+    days_count = 0
+    if has_social_manifest:
+        try:
+            with open(social_manifest, "r", encoding="utf-8") as f:
+                sdata = json.load(f)
+            days = sdata.get("days", []) if isinstance(sdata, dict) else sdata
+            days_count = len(days) if isinstance(days, list) else 0
+        except Exception:
+            pass
+
+    images_dir = project_dir / "social_cards" / "images"
+    image_count = len(list(images_dir.glob("*.png"))) if images_dir.exists() else 0
+
+    schedule_file = project_dir / "social_cards" / "schedule_status_60_days.json"
+    has_schedule = schedule_file.exists()
+
+    score = 0.0
+    if gsc_passed: score += 30.0
+    if has_social_manifest and days_count >= 30: score += 40.0
+    elif has_social_manifest: score += 20.0
+    if image_count > 0: score += 20.0
+    if has_schedule: score += 10.0
+
+    passed = score >= 60.0
     return {
         "passed": passed,
-        "score": 95.0 if passed else 60.0,
-        "reason": "GSC Validations tracked" if passed else "GSC audit log recommended"
+        "score": score,
+        "gsc_logged": gsc_passed,
+        "has_social_manifest": has_social_manifest,
+        "days_planned": days_count,
+        "infographics_count": image_count,
+        "has_schedule": has_schedule,
+        "reason": "OK" if passed else "Missing GSC audit log or 60-day social publisher manifest"
     }
 
 EVALUATOR_MAP = {

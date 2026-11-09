@@ -72,15 +72,18 @@
     "stage_5_ssg_madpp": {
       "name": "同源静态编译、MA-DPP 欧盟护照与 Clean URLs",
       "status": "pending",
-      "invoked_skills": ["ma-dpp-certification-master", "build_dpp_static_pages.py"],
+      "invoked_skills": ["ma-dpp-certification-master", "orchestrate_ma_dpp.py", "build_dpp_static_pages.py"],
       "artifacts": {
         "dpp_pages_dir": "dist/dpp/",
-        "dpp_catalog": "content/ma_dpp_catalog.json"
+        "dpp_catalog": "data/ma_dpp_catalog.json",
+        "dpp_hub": "dist/ma-dpp/index.html",
+        "dpp_sitemap": "dist/sitemap-dpp.xml"
       },
       "gate_checks": {
         "dpp_pages_generated": 0,
         "espr_iso15459_schema_valid": false,
-        "static_html_served_with_200": false
+        "static_html_served_with_200": false,
+        "sitemap_dpp_clean_urls": false
       },
       "passed_at": null
     },
@@ -119,16 +122,22 @@
       "name": "GSC 自动化取证修复与双循环持续收录飞轮",
       "status": "pending",
       "invoked_skills": [
+        "b2b-ma-dpp-social-publisher",
         "cloudflare-indexnow-traffic-optimizer",
         "reddit-b2b-b2c-geo-scheduler",
         "gsc_ego_operator.js"
       ],
       "artifacts": {
+        "social_manifest": "social_cards/campaign_manifest_60_days.json",
+        "social_cards_dir": "social_cards/images/",
+        "social_schedule_status": "social_cards/schedule_status_60_days.json",
         "gsc_validation_state": "docs/seo/gsc-validation-log.json",
         "indexnow_state": "private/indexnow-state.json"
       },
       "gate_checks": {
         "all_6_gsc_reasons_validated": false,
+        "social_campaign_manifest_compiled": false,
+        "infographics_rendered_1080x1350": false,
         "indexnow_cold_page_boost_enabled": false,
         "reddit_bimonthly_scheduler_active": false
       },

@@ -1,12 +1,13 @@
 {
   "name": "b2b-export-site-super-orchestrator",
-  "version": "1.1.0",
-  "description": "全生命周期外贸出海独立站Master总控Skill(V1.1.0)：基于状态机契约(site-lifecycle.json)统一调度全网与本地90+细分专业出海技能。覆盖企业DNA真理建档(Stage 1)、买家ICP与欧亚标准矩阵(Stage 2)、信息架构与多Sitemap规范(Stage 3)、工业视觉与反AI-Slop设计令牌(Stage 4)、同源静态编译与MA-DPP欧盟数字产品护照(Stage 5)、全球多引擎GEO与知识图谱互锁(Stage 6)、零摩擦工作台与海运双模算力(Stage 7)、GSC 6大未收录自动化修复与双循环持续收录飞轮(Stage 8)。支持本机全部28个出海站群全景审计与自动化批量排障。",
+  "version": "1.2.0",
+  "description": "全生命周期外贸出海独立站Master总控Skill(V1.2.0)：深度融合欧盟ESPR 2024/1781与ISO/IEC 15459 Node 100015数字产品护照引擎(ma-dpp-certification-master)与60天全渠道社交媒体飞轮分发引擎(b2b-ma-dpp-social-publisher)。基于状态机契约(site-lifecycle.json)统一调度全网与本地90+细分专业出海技能。覆盖企业DNA真理建档(Stage 1)、买家ICP与欧亚标准矩阵(Stage 2)、信息架构与多Sitemap规范(Stage 3)、工业视觉与反AI-Slop设计令牌(Stage 4)、同源静态编译与MA-DPP欧盟数字产品护照(Stage 5)、全球多引擎GEO与知识图谱互锁(Stage 6)、零摩擦工作台与海运双模算力(Stage 7)、GSC 6大未收录自动化修复与双循环持续收录飞轮(Stage 8)。支持本机全部28个出海站群全景审计与自动化批量排障。",
   "author": "cnproduct",
   "license": "MIT",
   "entry": "scripts/super_orchestrator.py",
   "tools": [
     "super_orchestrator.py",
+    "orchestrate_ma_dpp.py",
     "skill_registry.py",
     "lifecycle_evaluator.py",
     "gsc_ego_operator.js",
@@ -14,5 +15,5 @@
     "fleet_site_auditor.py",
     "build_dpp_static_pages.py"
   ],
-  "standards_checked_at": "2026-11-08"
+  "standards_checked_at": "2026-11-09"
 }

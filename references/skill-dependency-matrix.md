@@ -52,8 +52,9 @@
 
 | 技能名称 (Skill ID) | 来源位置 | 核心职能 | 输入参数 / 契约 | 产出物料 (Artifacts) |
 |---|---|---|---|---|
-| **`ma-dpp-certification-master`** | Local / GitHub | 依据欧盟 ESPR 与 ISO 15459 建立数字产品护照 | BOM 材料比、循环利用率 | `content/ma_dpp_catalog.json` |
-| **`scripts/build_dpp_static_pages.py`** | Built-in | 将 DPP 预渲染为独立静态着陆页 (`/dpp-{sku}`) 与 XML | DPP 目录、目标目录 | `dist/dpp/*.html`, `sitemap-dpp.xml` |
+| **`ma-dpp-certification-master`** | Local / GitHub | 依据欧盟 ESPR 2024/1781 与 ISO/IEC 15459 Node 100015 建立数字产品护照与可信数据底座 | BOM 材料比、循环利用率、检测报告 | `data/ma_dpp_catalog.json`, `docs/dpp/` |
+| **`scripts/orchestrate_ma_dpp.py`** | Built-in | MA-DPP 护照与社交媒体全生命周期总控桥接脚本 | 站点目录、域名、模式 (`passport`/`social`/`full`) | 护照生成、XML 地图、60天社交矩阵与图片渲染 |
+| **`scripts/build_dpp_static_pages.py`** | Built-in | 将 DPP 预渲染为独立静态着陆页 (`/dpp/dpp-{sku}`) 与 XML | DPP 目录、目标目录 | `dist/dpp/*.html`, `sitemap-dpp.xml` |
 | **`b2b-limestone-geo-site-builder`** | GitHub (`cnproduct`) | 天然石材、文化石垂直独立站编译引擎 | 石材参数、ASTM 标准 | 石材专属静态站与装柜算力 |
 | **`wideway-export-site-builder-skill`** | Local | 工业装备与 Master CMS 独立站自动化构建 | 机械参数、视频展厅 | 工业出海整站发布包 |
 | **`dingmao-shoes-site-builder`** | GitHub (`cnproduct`) | 鞋服箱包轻工出口独立站编译引擎 | 鞋类 SKU、尺码对照表 | 轻工专属静态整站 |
@@ -88,6 +89,8 @@
 
 | 技能名称 (Skill ID) | 来源位置 | 核心职能 | 输入参数 / 契约 | 产出物料 (Artifacts) |
 |---|---|---|---|---|
+| **`b2b-ma-dpp-social-publisher`** | Local / GitHub | 60 天三平台 (LinkedIn/Facebook/Reddit) 全渠道出海社媒营销飞轮 | `data/ma_dpp_catalog.json`、品牌档案 | `social_cards/campaign_manifest_60_days.json`, 1080x1350 PNG 卡片, ego-browser 自动化调度 |
+| **`scripts/orchestrate_ma_dpp.py`** | Built-in | 社交媒体矩阵编译与图文卡片批量渲染执行器 | 项目路径、社媒渠道、发布天数 | 自动执行生成脚本与发布证明审计 |
 | **`scripts/gsc_ego_operator.js`** | Built-in | 通过 `ego-browser` 自动化排查并一键触发 GSC 6 大原因修复 | 目标域名、Ego Lite 空间 ID | GSC Validation 全部点亮 Started |
 | **`cloudflare-indexnow-traffic-optimizer`** | GitHub (`cnproduct`) | IndexNow 秒级收录广播与 40% 冷页动态轮巡唤醒 | 域名、IndexNow API Key | `private/indexnow-state.json` |
 | **`reddit-b2b-b2c-geo-scheduler`** | GitHub (`cnproduct`) | 双月度工程师技术问答采矿、专业回复排期与知识引流 | 种子词、产品解决痛点 | `docs/seo/scheduled-reddit-qa.json` |

@@ -5,16 +5,21 @@ scripts/super_orchestrator.py
 Master Lifecycle Super Orchestrator CLI for b2b-export-site-super-orchestrator.
 Manages the site-lifecycle.json state machine, triggers specialized skills,
 executes deterministic gate audits, and generates executive dashboard reports.
+
+Fused with:
+- ma-dpp-certification-master (Stage 5): EU ESPR 2024/1781 & ISO/IEC 15459 Node 100015
+- b2b-ma-dpp-social-publisher (Stage 8): 60-Day Tri-Platform Omnichannel Growth Flywheel
 """
 
 import os
 import sys
 import json
 import argparse
+import subprocess
 from pathlib import Path
 from datetime import datetime
 
-from skill_registry import STAGE_SKILL_MAPPING, get_stage_skills, audit_registry
+from skill_registry import STAGE_SKILL_MAPPING, get_stage_skills, audit_registry, resolve_dpp_pipeline
 from lifecycle_evaluator import evaluate_all, evaluate_stage_1, evaluate_stage_2, evaluate_stage_3, evaluate_stage_4, evaluate_stage_5, evaluate_stage_6, evaluate_stage_7, evaluate_stage_8
 
 LIFECYCLE_FILENAME = "site-lifecycle.json"
@@ -57,12 +62,12 @@ def cmd_status(args):
     with open(lifecycle_file, "r", encoding="utf-8") as f:
         state = json.load(f)
 
-    print("=" * 65)
+    print("=" * 68)
     print(f"🚀 B2B Global Site Lifecycle Status: {state.get('project_name', 'Unnamed')}")
     print(f"🌐 Domain: {state.get('domain')} | Industry: {state.get('industry')}")
     print(f"📌 Current Active Stage: Stage {state.get('current_stage', 1)}")
     print(f"🩺 Overall Health Score: {state.get('overall_health_score', 0.0)} / 100")
-    print("=" * 65)
+    print("=" * 68)
 
     stages = state.get("stages", {})
     for idx in range(1, 9):
@@ -72,7 +77,15 @@ def cmd_status(args):
         icon = "✅" if status == "PASSED" else ("🔄" if status == "IN_PROGRESS" else "⏳")
         name = info.get("name", key)
         print(f"Stage {idx} [{icon} {status:<11}]: {name}")
-    print("=" * 65)
+    print("=" * 68)
+
+    # MA-DPP Subsystem Overview
+    dpp_info = resolve_dpp_pipeline()
+    dpp_status = "✅ READY" if dpp_info["ready"] else "⚠️ PARTIAL"
+    print(f"🛡️  MA-DPP Subsystem: {dpp_status}")
+    print(f"   • Stage 5 Passport Engine: ma-dpp-certification-master ({'Installed' if dpp_info['passport_engine']['available'] else 'Missing'})")
+    print(f"   • Stage 8 Social Publisher: b2b-ma-dpp-social-publisher ({'Installed' if dpp_info['social_engine']['available'] else 'Missing'})")
+    print("=" * 68)
 
 def cmd_audit_gate(args):
     project_dir = Path(args.project).resolve()
@@ -90,11 +103,57 @@ def cmd_audit_gate(args):
     else:
         print(f"\n[FAIL] Stage {stage_num} Gate Criteria Not Met: {stage_res.get('reason')}")
 
+def cmd_dpp_pipeline(args):
+    """
+    Executes Stage 5 MA-DPP Certification Master pipeline.
+    """
+    bridge_script = Path(__file__).parent / "orchestrate_ma_dpp.py"
+    cmd = [sys.executable, str(bridge_script), "--mode", "passport", "--project", args.project]
+    if args.domain:
+        cmd.extend(["--domain", args.domain])
+    if args.industry:
+        cmd.extend(["--industry", args.industry])
+    
+    print(f"[EXEC] Running MA-DPP Certification Pipeline on {args.project}...")
+    subprocess.run(cmd)
+
+def cmd_dpp_social(args):
+    """
+    Executes Stage 8 b2b-ma-dpp-social-publisher pipeline.
+    """
+    bridge_script = Path(__file__).parent / "orchestrate_ma_dpp.py"
+    cmd = [sys.executable, str(bridge_script), "--mode", "social", "--project", args.project, "--days", str(args.days)]
+    if args.domain:
+        cmd.extend(["--domain", args.domain])
+    if args.industry:
+        cmd.extend(["--industry", args.industry])
+    
+    print(f"[EXEC] Running MA-DPP Social Publisher & Infographics on {args.project}...")
+    subprocess.run(cmd)
+
+def cmd_dpp_full(args):
+    """
+    Executes full end-to-end MA-DPP Certification (Stage 5) + Social Publisher (Stage 8) pipeline.
+    """
+    bridge_script = Path(__file__).parent / "orchestrate_ma_dpp.py"
+    cmd = [sys.executable, str(bridge_script), "--mode", "full", "--project", args.project, "--days", str(args.days)]
+    if args.domain:
+        cmd.extend(["--domain", args.domain])
+    if args.industry:
+        cmd.extend(["--industry", args.industry])
+    
+    print(f"[EXEC] Running MA-DPP Full-Cycle Orchestration on {args.project}...")
+    subprocess.run(cmd)
+
 def cmd_self_test(args):
     print("[TEST] Running self-test for super_orchestrator...")
     registry_report = audit_registry()
-    assert len(registry_report) == 8, "Expected 8 stages in registry"
+    assert len(registry_report) >= 8, "Expected 8 stages in registry"
     print("  ✓ Skill Registry verified across 8 stages")
+
+    dpp_info = registry_report.get("dpp_subsystem", {})
+    assert dpp_info.get("ready") is True, "Expected MA-DPP subsystem to be fully ready"
+    print("  ✓ MA-DPP Subsystem integration verified (Passport Engine + Social Publisher)")
 
     temp_dir = Path("/tmp/orchestrator-test")
     temp_dir.mkdir(parents=True, exist_ok=True)
@@ -108,10 +167,10 @@ def cmd_self_test(args):
 
     import shutil
     shutil.rmtree(temp_dir)
-    print("\n[ALL TESTS PASSED] super_orchestrator is fully verified.")
+    print("\n[ALL TESTS PASSED] super_orchestrator V1.2.0 is fully verified.")
 
 def main():
-    parser = argparse.ArgumentParser(description="Master Lifecycle Super Orchestrator for B2B Export Sites")
+    parser = argparse.ArgumentParser(description="Master Lifecycle Super Orchestrator for B2B Export Sites (V1.2.0)")
     subparsers = parser.add_subparsers(dest="subcommand", required=True)
 
     # init
@@ -132,6 +191,26 @@ def main():
     p_audit.add_argument("--stage", required=True, type=int, help="Stage number (1-8)")
     p_audit.add_argument("--project", default=".", help="Project directory")
 
+    # dpp-pipeline (Stage 5)
+    p_dpp = subparsers.add_parser("dpp-pipeline", help="Run Stage 5 MA-DPP Certification Master pipeline")
+    p_dpp.add_argument("--project", default=".", help="Project directory")
+    p_dpp.add_argument("--domain", help="Domain name")
+    p_dpp.add_argument("--industry", default="footwear", help="Industry code")
+
+    # dpp-social (Stage 8)
+    p_soc = subparsers.add_parser("dpp-social", help="Run Stage 8 MA-DPP Social Publisher & Infographics generator")
+    p_soc.add_argument("--project", default=".", help="Project directory")
+    p_soc.add_argument("--domain", help="Domain name")
+    p_soc.add_argument("--industry", default="footwear", help="Industry code")
+    p_soc.add_argument("--days", type=int, default=60, help="Campaign duration in days")
+
+    # dpp-full-cycle (Stages 5 + 8)
+    p_full = subparsers.add_parser("dpp-full-cycle", help="Run end-to-end MA-DPP Certification + Social Publisher full cycle")
+    p_full.add_argument("--project", default=".", help="Project directory")
+    p_full.add_argument("--domain", help="Domain name")
+    p_full.add_argument("--industry", default="footwear", help="Industry code")
+    p_full.add_argument("--days", type=int, default=60, help="Campaign duration in days")
+
     # self-test
     p_test = subparsers.add_parser("self-test", help="Run internal validation test suite")
 
@@ -143,6 +222,12 @@ def main():
         cmd_status(args)
     elif args.subcommand == "audit-gate":
         cmd_audit_gate(args)
+    elif args.subcommand == "dpp-pipeline":
+        cmd_dpp_pipeline(args)
+    elif args.subcommand == "dpp-social":
+        cmd_dpp_social(args)
+    elif args.subcommand == "dpp-full-cycle":
+        cmd_dpp_full(args)
     elif args.subcommand == "self-test":
         cmd_self_test(args)
 

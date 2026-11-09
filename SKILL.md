@@ -1,13 +1,13 @@
 ---
 name: b2b-export-site-super-orchestrator
-description: 全生命周期外贸出海独立站 Master 总控调度 Skill (V1.1.0)：以唯一状态机契约 (site-lifecycle.json) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能。支持本机全部 28 个出海站点全景体检与批量优化。涵盖企业真实 DNA 事实建档 (Stage 1)、买家画像与欧亚国际标准矩阵 (Stage 2)、短路径架构与多 Sitemap 规范契约 (Stage 3)、反 AI-Slop 两轮工业视觉与 OKLCH 字阶 (Stage 4)、同源静态编译与 MA-DPP 欧盟数字产品护照 (Stage 5)、全球多引擎 GEO 直答与知识图谱互锁 (Stage 6)、首屏零摩擦工作台与双模海运装柜算力 (Stage 7)、Google Search Console 6 大未收录自动化修复与双循环持续收录飞轮 (Stage 8)。
+description: 全生命周期外贸出海独立站 Master 总控调度 Skill (V1.2.0)：深度融合欧盟 ESPR 2024/1781 与 ISO/IEC 15459 Node 100015 数字产品护照引擎 (ma-dpp-certification-master) 及 60 天全渠道出海社媒分发飞轮 (b2b-ma-dpp-social-publisher)。以唯一状态机契约 (site-lifecycle.json) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能。支持本机全部 28 个出海站点全景体检与批量优化。涵盖企业真实 DNA 事实建档 (Stage 1)、买家画像与欧亚国际标准矩阵 (Stage 2)、短路径架构与多 Sitemap 规范契约 (Stage 3)、反 AI-Slop 两轮工业视觉与 OKLCH 字阶 (Stage 4)、同源静态编译与 MA-DPP 欧盟数字产品护照 (Stage 5)、全球多引擎 GEO 直答与知识图谱互锁 (Stage 6)、首屏零摩擦工作台与双模海运装柜算力 (Stage 7)、Google Search Console 6 大未收录自动化修复与双循环持续收录飞轮 (Stage 8)。
 ---
 
-# B2B Export Site Super Orchestrator · 全生命周期 Master 总控 (V1.1.0)
+# B2B Export Site Super Orchestrator · 全生命周期 Master 总控 (V1.2.0)
 
 将企业真实事实转化为海外大买家深度信任、全球工程选型与询盘转化，且 Google、Bing、Yandex 及生成式 AI（ChatGPT Search、Perplexity、Claude、Google AI Overviews、Яндекс Нейро）高置信引用的世界级出海品牌独立站。
 
-本 Skill 专职担任**出海独立站建设与优化全生命周期的总指挥中心**。它通过严格的状态机契约 `site-lifecycle.json` 贯穿 8 大阶段，自动评测前置条件与闸门标准，按需调度本地与 GitHub 上 90+ 个细分专项技能，并提供对全站群（28 个已建客户站点）的并发体检与批量 GSC 自动排障。
+本 Skill 专职担任**出海独立站建设与优化全生命周期的总指挥中心**。它通过严格的状态机契约 `site-lifecycle.json` 贯穿 8 大阶段，自动评测前置条件与闸门标准，按需调度本地与 GitHub 上 90+ 个细分专项技能，深度整合 **MA-DPP 欧盟数字产品护照 (Stage 5)** 与 **三平台 60 天社媒增长飞轮 (Stage 8)**，并提供对全站群（28 个已建客户站点）的并发体检与批量 GSC 自动排障。
 
 ```mermaid
 flowchart TD
@@ -98,14 +98,16 @@ flowchart TD
 - **阶段闸门**：文本对比度 $\ge 4.5:1$，霓虹渐变字与 `shadow-xl` 清零。
 
 ### 阶段 5：同源静态编译、MA-DPP 欧盟护照与 Clean URLs (SSG & MA-DPP)
-- **目标**：以单一事实源驱动 HTML/JSON-LD 预渲染；依据 EU ESPR 渲染独立 MA-DPP 落地页（`/dpp-{sku}`）。
-- **调度技能**：
-  - `ma-dpp-certification-master` + `scripts/build_dpp_static_pages.py`：生成通用静态 MA-DPP 护照着陆页；
+- **目标**：以单一事实源驱动 HTML/JSON-LD 预渲染；依据欧盟 ESPR 2024/1781 与 ISO/IEC 15459 Node 100015 标准构建全量数字产品护照，生成 `/ma-dpp` 综合索引大厅与独立静态着陆页（`/dpp/dpp-{sku}`，纯 Clean URL 无 `.html`），并输出 `sitemap-dpp.xml`。
+- **调度技能与核心工具**：
+  - `ma-dpp-certification-master`：依据 ESPR 2024/1781 编译 Node 100015 根节点与 SHA-256 分布式账本哈希，产出 `data/ma_dpp_catalog.json`；
+  - `scripts/orchestrate_ma_dpp.py --mode passport`：内置总控流水线，自动化构建护照数据表、SGS 送检清单、综合大厅与 XML 站点地图；
+  - `scripts/build_dpp_static_pages.py`：生成通用静态 MA-DPP 护照着陆页；
   - `b2b-hygiene-export-site-builder`：针对 `leohygiene.com`、`shdhygiene.com` 的纸尿裤/经期裤/个护无纺布专属 SSG；
   - `b2b-energy-storage-site-builder`：针对 `sossenergy.com` 的工商业液冷储能与欧盟新电池法案护照 SSG；
   - 垂直行业 SSG 库：`b2b-limestone-geo-site-builder`（石材）、`wideway-export-site-builder-skill`（装备鞋服）、`dingmao-shoes-site-builder`（赤足鞋）、`b2b-foss-lubricants-builder`（润滑油）、`b2b-stone-machinery-site-builder`（石材机床）、`b2b-bento-geo-site-builder`（餐厨）、`wishtimetoys-site-builder`（玩具）。
-- **交付物**：`dist/dpp/*.html`、`dist/sitemap-dpp.xml`、无 JS 下完整可读的静态页面。
-- **阶段闸门**：全量 DPP 页面 200 OK，包含 ISO/IEC 15459 结构化微数据。
+- **交付物**：`data/ma_dpp_catalog.json`、`dist/dpp/` (或 `dpp/`)、`dist/ma-dpp/index.html` (或 `ma-dpp.html`)、`sitemap-dpp.xml`。
+- **阶段闸门**：全量 DPP 页面 200 OK，包含 ISO/IEC 15459 结构化微数据，Sitemap 覆盖率 100% 且零 `.html` 后缀。
 
 ### 阶段 6：全球多引擎 GEO、五层 AI 端点与知识图谱互锁 (GEO & Graph)
 - **目标**：注入 134–167 词 GEO 直答块（BLUF+IGN），部署 `/llms.txt` (v2)，绑定 Wikidata 永久实体。
@@ -126,15 +128,17 @@ flowchart TD
 - **阶段闸门**：RFQ 接口通过压力测试与防刷验证，询盘预填型号参数打通。
 
 ### 阶段 8：GSC 自动化取证修复与双循环持续收录飞轮 (GSC & Flywheel)
-- **目标**：通过 `ego-browser` 自动化排查并一键触发 GSC 6 大未收录原因验证；运行 IndexNow 冷页保鲜与 Reddit 引流。
-- **调度技能**：
+- **目标**：通过 `ego-browser` 自动化排查并一键触发 GSC 6 大未收录原因验证；同步激活 `b2b-ma-dpp-social-publisher` 60 天三平台社交增长飞轮与 IndexNow 冷页保鲜。
+- **调度技能与核心工具**：
+  - `b2b-ma-dpp-social-publisher`：深度整合 Stage 5 生成的 MA-DPP 护照事实，编译 LinkedIn 思想领导力长文、Facebook 权威标准帖与 Reddit 技术社区解构贴三维矩阵；
+  - `scripts/orchestrate_ma_dpp.py --mode social`：批量渲染 60 组 1080×1350 高清信息图卡片（HTML Canvas/Puppeteer），生成 `campaign_manifest_60_days.json`，并联动 `ego-browser` 执行全自动发帖与取证；
   - `scripts/gsc_ego_operator.js`：单站点 GSC 后台自动化验证与 6 大原因一键修复；
   - `scripts/gsc_fleet_operator.js`：28 个出海站点站群 GSC 自动化循环巡检与批量修复；
   - `scripts/fleet_site_auditor.py`：全站群 HTTP/Sitemap/DPP/llms.txt 自动化并发探测；
   - `cloudflare-indexnow-traffic-optimizer`：秒级广播新页面，40% 动态轮巡唤醒全站冷页；
   - `reddit-b2b-b2c-geo-scheduler`：双月度工程师问答排期，输出高质量解决方案引流。
-- **交付物**：GSC 6 大原因全部显示 `🕒 Started`、`private/indexnow-state.json`、双月度引流排期。
-- **阶段闸门**：GSC 官方验证覆盖率 100%，IndexNow 持续调度配置完成。
+- **交付物**：`social_cards/campaign_manifest_60_days.json`、`social_cards/images/*.png`、GSC 6 大原因全部显示 `🕒 Started`、`private/indexnow-state.json`。
+- **阶段闸门**：GSC 官方验证覆盖率 100%，60 天社媒发布清单与图片卡片全部生成完毕。
 
 ---
 
@@ -154,13 +158,23 @@ python3 scripts/super_orchestrator.py init \
   --name "Example Global Semiconductor Portal" \
   --out /path/to/project
 
-# 4. 检查当前项目全生命周期状态与各阶段闸门
+# 4. 检查当前项目全生命周期状态与各阶段闸门（包含 MA-DPP 子系统实时探测）
 python3 scripts/super_orchestrator.py status --project /path/to/project
 
-# 5. 对指定阶段执行确定性闸门审计 (例如 Stage 5 静态编译与 MA-DPP)
+# 5. 对指定阶段执行确定性闸门审计 (例如 Stage 5 静态编译与 MA-DPP, Stage 8 持续飞轮)
 python3 scripts/super_orchestrator.py audit-gate --stage 5 --project /path/to/project
+python3 scripts/super_orchestrator.py audit-gate --stage 8 --project /path/to/project
 
-# 6. 运行全系统自检
+# 6. 【MA-DPP 融合命令】运行 Stage 5 欧盟数字产品护照全套编译流水线
+python3 scripts/super_orchestrator.py dpp-pipeline --project /path/to/project --domain example.com
+
+# 7. 【社媒飞轮融合命令】编译并调度 Stage 8 60天三平台社交媒体矩阵与信息图渲染
+python3 scripts/super_orchestrator.py dpp-social --project /path/to/project --domain example.com --days 60
+
+# 8. 【双引擎全闭环命令】一键串联护照合规生成与全渠道社媒营销分发 (Stages 5 + 8)
+python3 scripts/super_orchestrator.py dpp-full-cycle --project /path/to/project --domain example.com
+
+# 9. 运行全系统自检
 python3 scripts/super_orchestrator.py self-test
 ```
 
