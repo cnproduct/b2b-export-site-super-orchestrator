@@ -1,12 +1,12 @@
 # B2B Export Site Super Orchestrator · 全生命周期 Master 总控 Skill
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/cnproduct/b2b-export-site-super-orchestrator)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/cnproduct/b2b-export-site-super-orchestrator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Coverage: 90+ Skills](https://img.shields.io/badge/Skills%20Orchestrated-90+-green.svg)](references/skill-dependency-matrix.md)
-[![Fleet Audited: 28 Sites](https://img.shields.io/badge/Fleet%20Audited-28%20Sites-purple.svg)](references/multi-site-audit-and-optimization-roadmap.md)
+[![GEO & SEO Breadcrumbs](https://img.shields.io/badge/GEO%20%26%20SEO%20Breadcrumbs-Default%20Built--in-brightgreen.svg)](references/geo-seo-breadcrumb-standard.md)
 [![Subsystem: MA-DPP & Social](https://img.shields.io/badge/MA--DPP%20%26%20Social-Integrated-brightgreen.svg)](scripts/orchestrate_ma_dpp.py)
 
-**全生命周期外贸出海独立站 Master 总控调度引擎 (V1.2.0)**：深度融合 **MA-DPP 欧盟合规数字产品护照 (ESPR 2024/1781 & ISO/IEC 15459 Node 100015)** 与 **60 天三平台全渠道社媒营销分发飞轮**。以唯一状态机契约 (`site-lifecycle.json`) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能，支持对本机全部 28 个已建出海客户站点的全景并发体检与批量 GSC 自动排障。
+**全生命周期外贸出海独立站 Master 总控调度引擎 (V1.3.0)**：深度融合 **MA-DPP 欧盟合规数字产品护照 (ESPR 2024/1781 & ISO/IEC 15459 Node 100015)**、**60 天三平台全渠道社媒营销分发飞轮** 以及 **新建站点默认标配的 WAI-ARIA 响应式 GEO & SEO 面包屑导航与 Schema.org BreadcrumbList 体系**。以唯一状态机契约 (`site-lifecycle.json`) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能，支持对本机全部已建出海客户站点的全景并发体检与批量 GSC 自动排障。
 
 ---
 
@@ -58,29 +58,35 @@ python3 scripts/fleet_site_auditor.py
 # 2. 对已验证的客户域名站群执行批量 GSC 自动化修复与 Validation 触发
 ego-browser nodejs scripts/gsc_fleet_operator.js "cosinechips.com,leohygiene.com,tianmaoshoefactory.com,shdhygiene.com"
 
-# 3. 初始化新出海独立站全生命周期中枢
+# 3. 初始化新出海独立站全生命周期中枢 (自动搭建默认 GEO/SEO 面包屑组件与样式)
 python3 scripts/super_orchestrator.py init \
   --domain example.com \
   --industry electronics \
   --out /path/to/project
 
-# 4. 检查全生命周期阶段、健康度与 MA-DPP 子系统就绪状态
+# 4. 【默认面包屑命令】对项目执行全站 GEO & SEO 面包屑组件与 BreadcrumbList 审计或自动注入
+python3 scripts/super_orchestrator.py breadcrumbs --project /path/to/project --domain example.com
+# 或直接调用底层注入工具
+python3 scripts/inject_geo_breadcrumbs.py --project /path/to/project --domain example.com --inject
+
+# 5. 检查全生命周期阶段、健康度与 MA-DPP 子系统就绪状态
 python3 scripts/super_orchestrator.py status --project /path/to/project
 
-# 5. 执行特定阶段的确定性闸门审计 (例如 Stage 5 护照合规, Stage 8 社媒与飞轮)
+# 6. 执行特定阶段的确定性闸门审计 (例如 Stage 3 IA与面包屑, Stage 5 护照合规)
+python3 scripts/super_orchestrator.py audit-gate --stage 3 --project /path/to/project
 python3 scripts/super_orchestrator.py audit-gate --stage 5 --project /path/to/project
 python3 scripts/super_orchestrator.py audit-gate --stage 8 --project /path/to/project
 
-# 6. 【MA-DPP 子系统流水线】Stage 5 欧盟数字产品护照与 XML 地图全套编译
+# 7. 【MA-DPP 子系统流水线】Stage 5 欧盟数字产品护照与 XML 地图全套编译
 python3 scripts/super_orchestrator.py dpp-pipeline --project /path/to/project --domain example.com
 
-# 7. 【社媒分发飞轮】Stage 8 编译 60 天三平台社交媒体矩阵与 1080x1350 信息图卡片
+# 8. 【社媒分发飞轮】Stage 8 编译 60 天三平台社交媒体矩阵与 1080x1350 信息图卡片
 python3 scripts/super_orchestrator.py dpp-social --project /path/to/project --domain example.com --days 60
 
-# 8. 【双引擎全闭环】Stage 5 + Stage 8 护照合规与社媒矩阵全量联动
+# 9. 【双引擎全闭环】Stage 5 + Stage 8 护照合规与社媒矩阵全量联动
 python3 scripts/super_orchestrator.py dpp-full-cycle --project /path/to/project --domain example.com
 
-# 9. 运行全系统回归自检
+# 10. 运行全系统回归自检
 python3 scripts/super_orchestrator.py self-test
 ```
 
@@ -89,6 +95,7 @@ python3 scripts/super_orchestrator.py self-test
 ## 📚 核心文档索引
 
 - [全生命周期 Master 调度编排协议规范](references/lifecycle-orchestrator-spec.md)
+- [B2B GEO & SEO 响应式面包屑与 BreadcrumbList 规范指南](references/geo-seo-breadcrumb-standard.md)
 - [本机全部会话 28 个出海站点全景体检与全流程深度优化方案](references/multi-site-audit-and-optimization-roadmap.md)
 - [90+ 出海细分技能依赖与调度映射矩阵](references/skill-dependency-matrix.md)
 - [GSC 深度取证与全项自动化修复 SOP](references/gsc-forensic-remediation-sop.md)

@@ -16,11 +16,13 @@ import sys
 import json
 import argparse
 import subprocess
+import shutil
 from pathlib import Path
 from datetime import datetime
 
 from skill_registry import STAGE_SKILL_MAPPING, get_stage_skills, audit_registry, resolve_dpp_pipeline
 from lifecycle_evaluator import evaluate_all, evaluate_stage_1, evaluate_stage_2, evaluate_stage_3, evaluate_stage_4, evaluate_stage_5, evaluate_stage_6, evaluate_stage_7, evaluate_stage_8
+from inject_geo_breadcrumbs import audit_and_inject_fleet
 
 LIFECYCLE_FILENAME = "site-lifecycle.json"
 
@@ -47,7 +49,46 @@ def cmd_init(args):
     with open(lifecycle_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
+    # Automatically scaffold default GEO & SEO Breadcrumb components and styles
+    bc_templates_dir = Path(__file__).parent.parent / "templates" / "breadcrumbs"
+    if bc_templates_dir.exists():
+        comp_dir = project_dir / "src" / "components"
+        comp_dir.mkdir(parents=True, exist_ok=True)
+        css_dir = project_dir / "src" / "styles"
+        css_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Also provide web-ready fallback dirs
+        (project_dir / "components").mkdir(parents=True, exist_ok=True)
+        (project_dir / "css").mkdir(parents=True, exist_ok=True)
+
+        bc_html = bc_templates_dir / "breadcrumb.html"
+        bc_css = bc_templates_dir / "breadcrumb.css"
+        if bc_html.exists():
+            shutil.copy2(bc_html, comp_dir / "breadcrumb.html")
+            shutil.copy2(bc_html, project_dir / "components" / "breadcrumb.html")
+        if bc_css.exists():
+            shutil.copy2(bc_css, css_dir / "breadcrumb.css")
+            shutil.copy2(bc_css, project_dir / "css" / "breadcrumb.css")
+
+        # Docs
+        docs_dir = project_dir / "docs" / "seo"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        spec_file = docs_dir / "breadcrumbs-spec.md"
+        spec_content = f"""# {data['project_name']} - GEO & SEO Breadcrumb Navigation Standard
+
+This site defaults to WAI-ARIA compliant, mobile touch-scrollable breadcrumbs on all non-home content pages.
+- Base Domain: {data['domain']}
+- Base URL: {data['base_url']}
+- Schema Type: BreadcrumbList (JSON-LD)
+- Canonical Compliance: 100% clean URLs without .html suffixes.
+
+Run `python3 scripts/inject_geo_breadcrumbs.py --project . --inject` to audit and inject breadcrumbs.
+"""
+        with open(spec_file, "w", encoding="utf-8") as f:
+            f.write(spec_content)
+
     print(f"[SUCCESS] Initialized {LIFECYCLE_FILENAME} for {data['domain']} at {project_dir}")
+    print(f"[SUCCESS] Default GEO & SEO Breadcrumbs scaffolded in src/components/ and src/styles/")
 
 def cmd_status(args):
     project_dir = Path(args.project).resolve()
@@ -145,6 +186,16 @@ def cmd_dpp_full(args):
     print(f"[EXEC] Running MA-DPP Full-Cycle Orchestration on {args.project}...")
     subprocess.run(cmd)
 
+def cmd_breadcrumbs(args):
+    """
+    Audits or injects GEO & SEO responsive breadcrumbs & Schema.org JSON-LD across project HTML files.
+    """
+    project_dir = Path(args.project).resolve()
+    do_inject = not args.dry_run
+    print(f"[BREADCRUMBS] Running {'injection' if do_inject else 'audit'} on {project_dir}...")
+    res = audit_and_inject_fleet(project_dir, domain=args.domain, do_inject=do_inject)
+    print(json.dumps(res, indent=2, ensure_ascii=False))
+
 def cmd_self_test(args):
     print("[TEST] Running self-test for super_orchestrator...")
     registry_report = audit_registry()
@@ -167,10 +218,10 @@ def cmd_self_test(args):
 
     import shutil
     shutil.rmtree(temp_dir)
-    print("\n[ALL TESTS PASSED] super_orchestrator V1.2.0 is fully verified.")
+    print("\n[ALL TESTS PASSED] super_orchestrator V1.3.0 is fully verified.")
 
 def main():
-    parser = argparse.ArgumentParser(description="Master Lifecycle Super Orchestrator for B2B Export Sites (V1.2.0)")
+    parser = argparse.ArgumentParser(description="Master Lifecycle Super Orchestrator for B2B Export Sites (V1.3.0)")
     subparsers = parser.add_subparsers(dest="subcommand", required=True)
 
     # init
@@ -211,6 +262,12 @@ def main():
     p_full.add_argument("--industry", default="footwear", help="Industry code")
     p_full.add_argument("--days", type=int, default=60, help="Campaign duration in days")
 
+    # breadcrumbs (Stage 3 & 6)
+    p_bc = subparsers.add_parser("breadcrumbs", help="Audit or inject GEO & SEO breadcrumb navigation & Schema.org JSON-LD")
+    p_bc.add_argument("--project", default=".", help="Project directory")
+    p_bc.add_argument("--domain", help="Domain name, e.g. example.com")
+    p_bc.add_argument("--dry-run", action="store_true", help="Audit without modifying files")
+
     # self-test
     p_test = subparsers.add_parser("self-test", help="Run internal validation test suite")
 
@@ -222,6 +279,8 @@ def main():
         cmd_status(args)
     elif args.subcommand == "audit-gate":
         cmd_audit_gate(args)
+    elif args.subcommand == "breadcrumbs":
+        cmd_breadcrumbs(args)
     elif args.subcommand == "dpp-pipeline":
         cmd_dpp_pipeline(args)
     elif args.subcommand == "dpp-social":

@@ -1,9 +1,9 @@
 ---
 name: b2b-export-site-super-orchestrator
-description: 全生命周期外贸出海独立站 Master 总控调度 Skill (V1.2.0)：深度融合欧盟 ESPR 2024/1781 与 ISO/IEC 15459 Node 100015 数字产品护照引擎 (ma-dpp-certification-master) 及 60 天全渠道出海社媒分发飞轮 (b2b-ma-dpp-social-publisher)。以唯一状态机契约 (site-lifecycle.json) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能。支持本机全部 28 个出海站点全景体检与批量优化。涵盖企业真实 DNA 事实建档 (Stage 1)、买家画像与欧亚国际标准矩阵 (Stage 2)、短路径架构与多 Sitemap 规范契约 (Stage 3)、反 AI-Slop 两轮工业视觉与 OKLCH 字阶 (Stage 4)、同源静态编译与 MA-DPP 欧盟数字产品护照 (Stage 5)、全球多引擎 GEO 直答与知识图谱互锁 (Stage 6)、首屏零摩擦工作台与双模海运装柜算力 (Stage 7)、Google Search Console 6 大未收录自动化修复与双循环持续收录飞轮 (Stage 8)。
+description: 全生命周期外贸出海独立站 Master 总控调度 Skill (V1.3.0)：深度融合欧盟 ESPR 2024/1781 与 ISO/IEC 15459 Node 100015 数字产品护照引擎 (ma-dpp-certification-master)、60 天全渠道出海社媒分发飞轮 (b2b-ma-dpp-social-publisher) 及默认内置的 WAI-ARIA 响应式 GEO & SEO 面包屑导航与 Schema.org BreadcrumbList 体系。以唯一状态机契约 (site-lifecycle.json) 驱动 8 阶段全流程闭环，按需调度本地与 GitHub 上 90+ 个专业出海、建站、SEO/GEO 及验证技能。支持本机全部出海站点全景体检与批量优化。涵盖企业真实 DNA 事实建档 (Stage 1)、买家画像与欧亚国际标准矩阵 (Stage 2)、短路径架构、多 Sitemap 规范契约与默认 SEO/GEO 面包屑组件 (Stage 3)、反 AI-Slop 两轮工业视觉与 OKLCH 字阶 (Stage 4)、同源静态编译与 MA-DPP 欧盟数字产品护照 (Stage 5)、全球多引擎 GEO 直答与知识图谱互锁 (Stage 6)、首屏零摩擦工作台与双模海运装柜算力 (Stage 7)、Google Search Console 6 大未收录自动化修复与双循环持续收录飞轮 (Stage 8)。
 ---
 
-# B2B Export Site Super Orchestrator · 全生命周期 Master 总控 (V1.2.0)
+# B2B Export Site Super Orchestrator · 全生命周期 Master 总控 (V1.3.0)
 
 将企业真实事实转化为海外大买家深度信任、全球工程选型与询盘转化，且 Google、Bing、Yandex 及生成式 AI（ChatGPT Search、Perplexity、Claude、Google AI Overviews、Яндекс Нейро）高置信引用的世界级出海品牌独立站。
 
@@ -80,12 +80,13 @@ flowchart TD
 - **阶段闸门**：4 角色 JTBD 覆盖率 100%，核心标准 1:1 转换无断链。
 
 ### 阶段 3：信息架构规划、动态 Sitemaps 与规范标签契约 (IA & Sitemaps)
-- **目标**：设计 Clean URLs（零 `.html` 后缀）、Hub-and-Spoke 树状结构与多 Sitemap 物理隔离。
-- **调度技能**：
+- **目标**：设计 Clean URLs（零 `.html` 后缀）、Hub-and-Spoke 树状结构、多 Sitemap 物理隔离，并**默认强制搭载符合 WAI-ARIA 规范与 GEO/SEO 标准的面包屑导航系统**。
+- **调度技能与核心工具**：
   - `B2B Portal Builder with Sitemaps`：自动化编译树状栏目与 Pill 导航；
-  - `b2b-geo-portal-builder`：短路径 Clean URLs 路由与自引用 Canonical 契约。
-- **交付物**：`dist/sitemap.xml`（主站核心页面）、`dist/sitemap-dpp.xml`（MA-DPP 护照地图）。
-- **阶段闸门**：全站页面自引用 Canonical 覆盖率 100%，Sitemap 中零动态参数 URL（无 `?id=...`）。
+  - `b2b-geo-portal-builder`：短路径 Clean URLs 路由与自引用 Canonical 契约；
+  - `scripts/inject_geo_breadcrumbs.py`：自动审计与注入 WAI-ARIA 响应式面包屑组件与 Schema.org `BreadcrumbList` 结构化数据。
+- **交付物**：`dist/sitemap.xml`（主站核心页面）、`dist/sitemap-dpp.xml`（MA-DPP 护照地图）、`src/components/breadcrumb.html`、`src/styles/breadcrumb.css`。
+- **阶段闸门**：全站页面自引用 Canonical 覆盖率 100%，Sitemap 中零动态参数 URL（无 `?id=...`），全量非首页内容页面 100% 部署 WAI-ARIA 面包屑组件与合规 `BreadcrumbList` 结构化数据。
 
 ### 阶段 4：视觉识别系统、反 AI-Slop UI 与设计令牌 (VI & Anti-Slop)
 - **目标**：绑定 4 大工业原型（精密机械/无尘医药/建筑石材/敏捷快反），杜绝霓虹渐变字与假大空套话。
@@ -98,11 +99,11 @@ flowchart TD
 - **阶段闸门**：文本对比度 $\ge 4.5:1$，霓虹渐变字与 `shadow-xl` 清零。
 
 ### 阶段 5：同源静态编译、MA-DPP 欧盟护照与 Clean URLs (SSG & MA-DPP)
-- **目标**：以单一事实源驱动 HTML/JSON-LD 预渲染；依据欧盟 ESPR 2024/1781 与 ISO/IEC 15459 Node 100015 标准构建全量数字产品护照，生成 `/ma-dpp` 综合索引大厅与独立静态着陆页（`/dpp/dpp-{sku}`，纯 Clean URL 无 `.html`），并输出 `sitemap-dpp.xml`。
+- **目标**：以单一事实源驱动 HTML/JSON-LD 预渲染；依据欧盟 ESPR 2024/1781 与 ISO/IEC 15459 Node 100015 标准构建全量数字产品护照，生成 `/ma-dpp` 综合索引大厅与独立静态着陆页（`/dpp/dpp-{sku}`，纯 Clean URL 无 `.html`），并输出 `sitemap-dpp.xml`。**所有护照页面默认包含多级面包屑导航（Home > MA-DPP Registry > Passport Pass）**。
 - **调度技能与核心工具**：
   - `ma-dpp-certification-master`：依据 ESPR 2024/1781 编译 Node 100015 根节点与 SHA-256 分布式账本哈希，产出 `data/ma_dpp_catalog.json`；
   - `scripts/orchestrate_ma_dpp.py --mode passport`：内置总控流水线，自动化构建护照数据表、SGS 送检清单、综合大厅与 XML 站点地图；
-  - `scripts/build_dpp_static_pages.py`：生成通用静态 MA-DPP 护照着陆页；
+  - `scripts/build_dpp_static_pages.py`：生成通用静态 MA-DPP 护照着陆页并内嵌面包屑结构；
   - `b2b-hygiene-export-site-builder`：针对 `leohygiene.com`、`shdhygiene.com` 的纸尿裤/经期裤/个护无纺布专属 SSG；
   - `b2b-energy-storage-site-builder`：针对 `sossenergy.com` 的工商业液冷储能与欧盟新电池法案护照 SSG；
   - 垂直行业 SSG 库：`b2b-limestone-geo-site-builder`（石材）、`wideway-export-site-builder-skill`（装备鞋服）、`dingmao-shoes-site-builder`（赤足鞋）、`b2b-foss-lubricants-builder`（润滑油）、`b2b-stone-machinery-site-builder`（石材机床）、`b2b-bento-geo-site-builder`（餐厨）、`wishtimetoys-site-builder`（玩具）。
@@ -110,13 +111,14 @@ flowchart TD
 - **阶段闸门**：全量 DPP 页面 200 OK，包含 ISO/IEC 15459 结构化微数据，Sitemap 覆盖率 100% 且零 `.html` 后缀。
 
 ### 阶段 6：全球多引擎 GEO、五层 AI 端点与知识图谱互锁 (GEO & Graph)
-- **目标**：注入 134–167 词 GEO 直答块（BLUF+IGN），部署 `/llms.txt` (v2)，绑定 Wikidata 永久实体。
+- **目标**：注入 134–167 词 GEO 直答块（BLUF+IGN），部署 `/llms.txt` (v2)，绑定 Wikidata 永久实体，**通过高保真 Breadcrumb 层级为生成式引擎（Perplexity, ChatGPT, Claude）建立精准的实体父子从属图谱**。
 - **调度技能**：
   - `b2b-gemini-geo-citation-engine`：执行 0+4 步法算子与可引用性评分（`citability-score` 目标 $\ge 85$）；
+  - `scripts/inject_geo_breadcrumbs.py`：GEO 实体层级互锁与面包屑规范校验；
   - `scripts/seo_geo_matrix.py`：编译 `/llms.txt`、`/llms-full.txt` 与 `/ai/*.json`；
   - `references/cis-yandex-geo-mastery.md`：配置 Yandex Webmaster Clean-param 指令与 ГОСТ 俄文参数块。
-- **交付物**：五层 AI 端点、Schema.org `sameAs` Wikidata 互锁代码、Yandex 专属配置。
-- **阶段闸门**：平均可引用性得分 $\ge 85$，Wikidata QID 双向互锁达成。
+- **交付物**：五层 AI 端点、Schema.org `sameAs` Wikidata 互锁代码、Yandex 专属配置、GEO 面包屑实体链条。
+- **阶段闸门**：平均可引用性得分 $\ge 85$，Wikidata QID 双向互锁达成，面包屑实体从属链 100% 校验通过。
 
 ### 阶段 7：零摩擦工作台、海运双模算力与 RFQ 守护 (Workbench & RFQ)
 - **目标**：首屏提供免注册规格预设切换与装柜测算器；部署三级商业询盘卡；启动 HMAC 蜜罐防刷守护。
@@ -151,30 +153,36 @@ python3 scripts/fleet_site_auditor.py
 # 2. 对已验证的客户域名站群执行批量 GSC 自动化修复与 Validation 触发
 ego-browser nodejs scripts/gsc_fleet_operator.js "cosinechips.com,leohygiene.com,tianmaoshoefactory.com,shdhygiene.com"
 
-# 3. 初始化新出海独立站全生命周期中枢
+# 3. 初始化新出海独立站全生命周期中枢 (默认自动搭建 GEO/SEO 面包屑与样式)
 python3 scripts/super_orchestrator.py init \
   --domain example.com \
   --industry electronics \
   --name "Example Global Semiconductor Portal" \
   --out /path/to/project
 
-# 4. 检查当前项目全生命周期状态与各阶段闸门（包含 MA-DPP 子系统实时探测）
+# 4. 【默认面包屑命令】对项目执行 GEO & SEO 面包屑组件与 BreadcrumbList 审计或自动注入
+python3 scripts/super_orchestrator.py breadcrumbs --project /path/to/project --domain example.com
+# 或直接调用底层注入工具
+python3 scripts/inject_geo_breadcrumbs.py --project /path/to/project --domain example.com --inject
+
+# 5. 检查当前项目全生命周期状态与各阶段闸门（包含 MA-DPP 子系统实时探测）
 python3 scripts/super_orchestrator.py status --project /path/to/project
 
-# 5. 对指定阶段执行确定性闸门审计 (例如 Stage 5 静态编译与 MA-DPP, Stage 8 持续飞轮)
+# 6. 对指定阶段执行确定性闸门审计 (例如 Stage 3 IA与面包屑, Stage 5 静态编译与 MA-DPP)
+python3 scripts/super_orchestrator.py audit-gate --stage 3 --project /path/to/project
 python3 scripts/super_orchestrator.py audit-gate --stage 5 --project /path/to/project
 python3 scripts/super_orchestrator.py audit-gate --stage 8 --project /path/to/project
 
-# 6. 【MA-DPP 融合命令】运行 Stage 5 欧盟数字产品护照全套编译流水线
+# 7. 【MA-DPP 融合命令】运行 Stage 5 欧盟数字产品护照全套编译流水线
 python3 scripts/super_orchestrator.py dpp-pipeline --project /path/to/project --domain example.com
 
-# 7. 【社媒飞轮融合命令】编译并调度 Stage 8 60天三平台社交媒体矩阵与信息图渲染
+# 8. 【社媒飞轮融合命令】编译并调度 Stage 8 60天三平台社交媒体矩阵与信息图渲染
 python3 scripts/super_orchestrator.py dpp-social --project /path/to/project --domain example.com --days 60
 
-# 8. 【双引擎全闭环命令】一键串联护照合规生成与全渠道社媒营销分发 (Stages 5 + 8)
+# 9. 【双引擎全闭环命令】一键串联护照合规生成与全渠道社媒营销分发 (Stages 5 + 8)
 python3 scripts/super_orchestrator.py dpp-full-cycle --project /path/to/project --domain example.com
 
-# 9. 运行全系统自检
+# 10. 运行全系统自检
 python3 scripts/super_orchestrator.py self-test
 ```
 
@@ -183,6 +191,7 @@ python3 scripts/super_orchestrator.py self-test
 ## 📚 核心参考文档索引
 
 - [全生命周期 Master 调度编排协议规范](references/lifecycle-orchestrator-spec.md)
+- [B2B GEO & SEO 响应式面包屑与 BreadcrumbList 规范指南](references/geo-seo-breadcrumb-standard.md)
 - [本机全部会话 28 个出海站点全景体检与全流程深度优化方案](references/multi-site-audit-and-optimization-roadmap.md)
 - [90+ 出海细分技能依赖与调度映射矩阵](references/skill-dependency-matrix.md)
 - [GSC 深度取证与全项自动化修复 SOP](references/gsc-forensic-remediation-sop.md)

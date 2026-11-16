@@ -1,0 +1,79 @@
+/* ==========================================================================
+   B2B SEO & GEO Responsive Breadcrumb Component
+   ========================================================================== */
+.b2b-breadcrumb {
+  margin: 12px 0 20px 0;
+  padding: 8px 0;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  color: #64748b; /* slate-500 */
+}
+
+.b2b-breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap; /* 移动端默认单行横向排开 */
+  overflow-x: auto;  /* 移动端支持丝滑横向触摸滚动 */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox 隐藏滚动条 */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.b2b-breadcrumb-list::-webkit-scrollbar {
+  display: none; /* Chrome/Safari 隐藏滚动条 */
+}
+
+.b2b-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap; /* 防止单个面包屑词条被打断折行 */
+}
+
+.b2b-breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #475569; /* slate-600 */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease-in-out;
+}
+
+.b2b-breadcrumb-link:hover {
+  color: #0284c7; /* sky-600 主题蓝 */
+  text-decoration: underline;
+}
+
+.b2b-breadcrumb-icon {
+  flex-shrink: 0;
+  color: #94a3b8;
+}
+
+.b2b-breadcrumb-separator {
+  margin: 0 8px;
+  color: #cbd5e1; /* slate-300 */
+  user-select: none;
+}
+
+/* 最后一级当前页样式 */
+.b2b-breadcrumb-current {
+  color: #0f172a; /* slate-900 突出层级深度 */
+  font-weight: 600;
+  cursor: default;
+  pointer-events: none; /* 彻底杜绝可点击性 */
+}
+
+/* 桌面端大屏自适应自动折行（若层级很长时） */
+@media (min-width: 768px) {
+  .b2b-breadcrumb-list {
+    flex-wrap: wrap; /* 平板及电脑端自适应折行 */
+    overflow-x: visible;
+  }
+}
+
+/* RTL 语系支持（如阿拉伯语 /ar/） */
+[dir="rtl"] .b2b-breadcrumb-separator {
+  transform: scaleX(-1);
+}

@@ -59,13 +59,44 @@ def evaluate_stage_3(project_dir: Path) -> Dict[str, Any]:
         score = 100.0
         if has_html_ext: score -= 30.0
         if has_query_params: score -= 40.0
-        passed = score >= 70.0
+
+        # Check default breadcrumb navigation component & styles
+        has_bc_comp = any([
+            (project_dir / "src" / "components" / "breadcrumb.html").exists(),
+            (project_dir / "components" / "breadcrumb.html").exists(),
+            (project_dir / "templates" / "breadcrumbs" / "breadcrumb.html").exists()
+        ])
+        has_bc_css = any([
+            (project_dir / "src" / "styles" / "breadcrumb.css").exists(),
+            (project_dir / "css" / "breadcrumb.css").exists()
+        ])
+
+        # Check existing HTML files for breadcrumbs
+        html_files = [p for p in project_dir.glob("**/*.html") if not any(d in p.parts for d in (".git", "node_modules", "venv"))]
+        content_pages = [p for p in html_files if p.name != "index.html" or len(p.relative_to(project_dir).parts) > 1]
+        bc_found = 0
+        schema_found = 0
+        for cp in content_pages[:20]: # sample check up to 20
+            try:
+                c = cp.read_text(encoding="utf-8")
+                if "b2b-breadcrumb" in c or 'aria-label="Breadcrumb"' in c:
+                    bc_found += 1
+                if "BreadcrumbList" in c:
+                    schema_found += 1
+            except Exception:
+                pass
+
+        has_active_breadcrumbs = (len(content_pages) == 0) or (bc_found > 0 and schema_found > 0) or (has_bc_comp and has_bc_css)
+
+        passed = score >= 70.0 and (has_bc_comp or has_active_breadcrumbs)
         return {
             "passed": passed,
             "score": score,
             "clean_urls": not has_html_ext,
             "zero_parameters": not has_query_params,
-            "reason": "OK" if passed else "Sitemap contains .html extensions or query parameters"
+            "breadcrumb_component_ready": has_bc_comp or (bc_found > 0),
+            "breadcrumb_schema_ready": has_bc_css or (schema_found > 0),
+            "reason": "OK" if passed else "Sitemap contains .html extensions, query parameters, or missing default breadcrumb system"
         }
     except Exception as e:
         return {"passed": False, "score": 0.0, "reason": str(e)}
@@ -157,10 +188,22 @@ def evaluate_stage_6(project_dir: Path) -> Dict[str, Any]:
         llms_txt = project_dir / "llms.txt"
     
     passed = llms_txt.exists()
+    
+    # Check if breadcrumbs are present for GEO entity citation
+    html_files = [p for p in project_dir.glob("**/*.html") if not any(d in p.parts for d in (".git", "node_modules", "venv"))]
+    content_pages = [p for p in html_files if p.name != "index.html" or len(p.relative_to(project_dir).parts) > 1]
+    bc_geo_valid = True
+    if content_pages:
+        bc_count = sum(1 for p in content_pages[:10] if "b2b-breadcrumb" in p.read_text(encoding="utf-8", errors="ignore"))
+        bc_geo_valid = bc_count > 0
+
+    score = 90.0 if (passed and bc_geo_valid) else (60.0 if passed else 30.0)
     return {
-        "passed": passed,
-        "score": 90.0 if passed else 30.0,
-        "reason": "OK" if passed else "Missing /llms.txt endpoint"
+        "passed": passed and (score >= 60.0),
+        "score": score,
+        "has_llms_txt": passed,
+        "geo_breadcrumb_citations_ready": bc_geo_valid,
+        "reason": "OK" if passed else "Missing /llms.txt endpoint or GEO breadcrumb hierarchy"
     }
 
 def evaluate_stage_7(project_dir: Path) -> Dict[str, Any]:

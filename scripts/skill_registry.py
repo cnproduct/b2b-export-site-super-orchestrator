@@ -35,6 +35,7 @@ STAGE_SKILL_MAPPING = {
     3: [
         {"id": "B2B Portal Builder with Sitemaps", "role": "Tree Information Architecture & Pill Navigation", "tier": "primary"},
         {"id": "b2b-geo-portal-builder", "role": "Clean URLs Contract & Self-Referencing Canonical Router", "tier": "primary"},
+        {"id": "inject_geo_breadcrumbs.py", "role": "WAI-ARIA Responsive Breadcrumb Component & BreadcrumbList Schema Injector", "tier": "builtin"},
     ],
     4: [
         {"id": "brandvision", "role": "Master B2B Visual System & Archetype Binding", "tier": "primary"},
@@ -59,6 +60,7 @@ STAGE_SKILL_MAPPING = {
     ],
     6: [
         {"id": "b2b-gemini-geo-citation-engine", "role": "0+4 GEO Citation Operators (BLUF, IGN, MEN, ENT, SOM, FOQ)", "tier": "primary"},
+        {"id": "inject_geo_breadcrumbs.py", "role": "Entity Lineage & Breadcrumb Hierarchy GEO Optimization", "tier": "builtin"},
         {"id": "seo_geo_matrix.py", "role": "Five-Layer AI Endpoints (/llms.txt v2 & /ai/*.json) Generator", "tier": "builtin"},
         {"id": "cis-yandex-geo-mastery", "role": "GOST vs DIN vs ISO & Yandex Clean-param Strategy", "tier": "builtin"},
     ],

@@ -23,6 +23,8 @@
 - [ ] 拆分为核心地图 `sitemap.xml` 与独立护照地图 `sitemap-dpp.xml`
 - [ ] 100% 页面部署自引用 `<link rel="canonical" href="...">` 强契约
 - [ ] 零动态参数 URL（如 `?id=...`）泄漏进公开 Sitemaps
+- [ ] **【默认强制】GEO & SEO 面包屑组件**：全量内容页（产品/白皮书/新闻/资质）注入符合 WAI-ARIA 的 `<nav class="b2b-breadcrumb">` 组件
+- [ ] **【默认强制】Schema.org `BreadcrumbList` 结构化数据**：JSON-LD 绝对 Clean URLs 规范映射，与 Canonical 100% 一致，无 `.html` 后缀
 
 ---
 
@@ -37,6 +39,7 @@
 ## 阶段 5：同源静态编译、MA-DPP 欧盟护照与 Clean URLs (SSG & MA-DPP)
 - [ ] 单一事实源 `public-facts.json` 编译输出静态页面
 - [ ] MA-DPP 欧盟数字产品护照静态预渲染完成（`/dpp-{sku}`），遵循 ISO/IEC 15459
+- [ ] DPP 护照页默认包含多级面包屑（Home > MA-DPP Registry > Passport Pass）与完整 Schema BreadcrumbList
 - [ ] 前 1024 字节声明 UTF-8，CSS/JS 绑定内容指纹哈希 `?v={hash}`
 - [ ] 离线构建页面在无 JavaScript 状态下完整呈现核心参数表格
 
@@ -44,6 +47,7 @@
 
 ## 阶段 6：全球多引擎 GEO、五层 AI 端点与知识图谱互锁 (GEO & Graph)
 - [ ] 134–167 词 GEO 自包含工程直答块（BLUF+IGN 嵌套）通过率 100%
+- [ ] GEO 实体父子关系链（Breadcrumb Parent-Child Lineage）被生成式引擎清晰索引
 - [ ] 0–100 分 B2B GEO 可引用性评分审计 $\ge 85$ 分
 - [ ] `/llms.txt` (v2 规范)、`/llms-full.txt` 与 `/ai/*.json` 生成完成
 - [ ] 企业专属 Wikidata QID 绑定并在 Schema.org `sameAs` 首位建立双向互锁

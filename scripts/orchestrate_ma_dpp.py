@@ -112,6 +112,8 @@ def run_passport_pipeline(project_dir: Path, domain: str, industry: str) -> Dict
     
     with open(catalog_path, "r", encoding="utf-8") as f:
         catalog = json.load(f)
+    if isinstance(catalog, dict) and "products" in catalog:
+        catalog = catalog["products"]
 
     # 1. Build sitemap-dpp.xml
     sitemap_dpp = project_dir / "sitemap-dpp.xml"
@@ -177,6 +179,8 @@ def run_social_publisher_pipeline(project_dir: Path, domain: str, industry: str,
     catalog_path = ensure_dpp_catalog(project_dir, domain, industry)
     with open(catalog_path, "r", encoding="utf-8") as f:
         catalog = json.load(f)
+    if isinstance(catalog, dict) and "products" in catalog:
+        catalog = catalog["products"]
 
     # Check if project has its own dedicated social generator
     project_scripts = project_dir / "scripts"
