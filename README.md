@@ -88,7 +88,19 @@ python3 scripts/super_orchestrator.py dpp-full-cycle --project /path/to/project 
 
 # 10. 运行全系统回归自检
 python3 scripts/super_orchestrator.py self-test
+
+# 11. 【跨品类趋势拓品与敏捷上架引擎】调度 b2b-category-trend-launch-engine 极速拓品并提交 GSC
+# 针对任意品类（toys, shoes, lunch box, stone machine 等）从趋势雷达到发布
+python3 ~/.gemini/config/skills/b2b-category-trend-launch-engine/scripts/trend_radar.js --category "toys"
 ```
+
+---
+
+## 🔗 双引擎分层协同架构 (Dual-Engine Federation)
+
+本系统采用 **L1 级全站生命周期总控 (Super Orchestrator)** 与 **L2 级品类趋势敏捷拓品 (Trend Launch Engine)** 双引擎分层协同：
+- **`b2b-export-site-super-orchestrator`** (本总控)：负责出海独立站从 0 到 1 的 8 阶段生命周期契约 (`site-lifecycle.json`)、MA-DPP 欧盟数字产品护照标准、28 站群并发体检及 60 天社媒增长飞轮。
+- **[`b2b-category-trend-launch-engine`](https://github.com/cnproduct/b2b-category-trend-launch-engine)** (拓品先锋)：专职负责任意品类的 Google Trends 实时趋势雷达、竞品电商素材逆向、Zero `.html` 响应式落地页生成与 Google Search Console 即时收录。可通过内置 Bridge 相互按需唤醒。
 
 ---
 

@@ -106,7 +106,8 @@ flowchart TD
   - `scripts/build_dpp_static_pages.py`：生成通用静态 MA-DPP 护照着陆页并内嵌面包屑结构；
   - `b2b-hygiene-export-site-builder`：针对 `leohygiene.com`、`shdhygiene.com` 的纸尿裤/经期裤/个护无纺布专属 SSG；
   - `b2b-energy-storage-site-builder`：针对 `sossenergy.com` 的工商业液冷储能与欧盟新电池法案护照 SSG；
-  - 垂直行业 SSG 库：`b2b-limestone-geo-site-builder`（石材）、`wideway-export-site-builder-skill`（装备鞋服）、`dingmao-shoes-site-builder`（赤足鞋）、`b2b-foss-lubricants-builder`（润滑油）、`b2b-stone-machinery-site-builder`（石材机床）、`b2b-bento-geo-site-builder`（餐厨）、`wishtimetoys-site-builder`（玩具）。
+  - 垂直行业 SSG 库：`b2b-limestone-geo-site-builder`（石材）、`wideway-export-site-builder-skill`（装备鞋服）、`dingmao-shoes-site-builder`（赤足鞋）、`b2b-foss-lubricants-builder`（润滑油）、`b2b-stone-machinery-site-builder`（石材机床）、`b2b-bento-geo-site-builder`（餐厨）、`wishtimetoys-site-builder`（玩具）；
+  - `b2b-category-trend-launch-engine`：全品类出海爆款趋势雷达、多源电商逆向工程与 Zero `.html` 伪静态落地页通用敏捷上架引擎（支持任意工业与消费品类热点商品 15 分钟内极速生成发布）。
 - **交付物**：`data/ma_dpp_catalog.json`、`dist/dpp/` (或 `dpp/`)、`dist/ma-dpp/index.html` (或 `ma-dpp.html`)、`sitemap-dpp.xml`。
 - **阶段闸门**：全量 DPP 页面 200 OK，包含 ISO/IEC 15459 结构化微数据，Sitemap 覆盖率 100% 且零 `.html` 后缀。
 
@@ -136,6 +137,7 @@ flowchart TD
   - `scripts/orchestrate_ma_dpp.py --mode social`：批量渲染 60 组 1080×1350 高清信息图卡片（HTML Canvas/Puppeteer），生成 `campaign_manifest_60_days.json`，并联动 `ego-browser` 执行全自动发帖与取证；
   - `scripts/gsc_ego_operator.js`：单站点 GSC 后台自动化验证与 6 大原因一键修复；
   - `scripts/gsc_fleet_operator.js`：28 个出海站点站群 GSC 自动化循环巡检与批量修复；
+  - `b2b-category-trend-launch-engine`：驱动 Ego Lite 针对全新上线爆款单品与 Sitemap 执行实时 Top Bar Inspection 与即时 `REQUEST INDEXING` 请求；
   - `scripts/fleet_site_auditor.py`：全站群 HTTP/Sitemap/DPP/llms.txt 自动化并发探测；
   - `cloudflare-indexnow-traffic-optimizer`：秒级广播新页面，40% 动态轮巡唤醒全站冷页；
   - `reddit-b2b-b2c-geo-scheduler`：双月度工程师问答排期，输出高质量解决方案引流。

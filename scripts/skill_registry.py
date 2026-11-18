@@ -57,6 +57,7 @@ STAGE_SKILL_MAPPING = {
         {"id": "b2b-stone-machinery-site-builder", "role": "Heavy Industrial Stone Machinery SSG", "tier": "vertical"},
         {"id": "b2b-bento-geo-site-builder", "role": "Bento / Tableware & Houseware SSG", "tier": "vertical"},
         {"id": "wishtimetoys-site-builder", "role": "Educational Toys & Consumer Goods SSG", "tier": "vertical"},
+        {"id": "b2b-category-trend-launch-engine", "role": "Universal Category Trend Radar & Rapid Zero .html Product Page SSG (Toys, Shoes, Bento, Stone Machine, Garments, Hygiene)", "tier": "primary"},
     ],
     6: [
         {"id": "b2b-gemini-geo-citation-engine", "role": "0+4 GEO Citation Operators (BLUF, IGN, MEN, ENT, SOM, FOQ)", "tier": "primary"},
@@ -76,6 +77,7 @@ STAGE_SKILL_MAPPING = {
         {"id": "gsc_ego_operator.js", "role": "Single Site GSC Validation Trigger (All 6 Reasons)", "tier": "builtin"},
         {"id": "gsc_fleet_operator.js", "role": "Multi-Domain Fleet GSC Automated Remediation", "tier": "builtin"},
         {"id": "fleet_site_auditor.py", "role": "28 Customer Sites Automated Diagnostic Scanner", "tier": "builtin"},
+        {"id": "b2b-category-trend-launch-engine", "role": "Ego Lite Google Search Console (GSC) Instant Indexing & Sitemap Ingestion for New Products", "tier": "primary"},
     ],
 }
 
@@ -83,12 +85,14 @@ DPP_SUBSYSTEM = {
     "name": "MA-DPP End-to-End Compliance & Omnichannel Growth Subsystem",
     "passport_engine": "ma-dpp-certification-master",
     "social_engine": "b2b-ma-dpp-social-publisher",
+    "trend_engine": "b2b-category-trend-launch-engine",
     "stages": [5, 8],
     "standards": ["EU ESPR 2024/1781", "ISO/IEC 15459 Node 100015", "SGS CSTC", "SATRA TM133", "AEC-Q100"],
     "platforms": ["LinkedIn Company Page", "Facebook Meta Business Suite", "Reddit Technical Communities", "Google/Bing IndexNow"],
     "github_repos": {
         "passport": "https://github.com/cnproduct/ma-dpp-certification-master",
-        "social": "https://github.com/cnproduct/b2b-ma-dpp-social-publisher"
+        "social": "https://github.com/cnproduct/b2b-ma-dpp-social-publisher",
+        "trend_engine": "https://github.com/cnproduct/b2b-category-trend-launch-engine"
     }
 }
 
