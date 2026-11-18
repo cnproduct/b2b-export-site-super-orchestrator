@@ -38,7 +38,8 @@ async function main() {
   }
 
   const task = await taskSpace(1);
-  const p = await task.newPage();
+  const pages = await task.pages();
+  let p = pages.length > 0 ? pages[0] : await task.newPage();
 
   const summary = {};
 
