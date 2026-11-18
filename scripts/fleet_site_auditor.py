@@ -3,7 +3,7 @@
 scripts/fleet_site_auditor.py
 
 Automated Multi-Site Fleet Auditor for b2b-export-site-super-orchestrator.
-Performs concurrent health diagnostics across all 28 B2B customer sites, checking:
+Performs concurrent health diagnostics across B2B customer sites, checking:
 1. HTTP 200 availability
 2. Primary XML sitemap (sitemap.xml)
 3. MA-DPP Digital Product Passport XML sitemap (sitemap-dpp.xml)
@@ -14,9 +14,10 @@ Performs concurrent health diagnostics across all 28 B2B customer sites, checkin
 import sys
 import ssl
 import json
+import argparse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
+from datetime import datetime, timezone
 
 CUSTOMER_FLEET = [
     {"domain": "cosinechips.com", "name": "科山芯创", "industry": "半导体/模拟芯片"},
@@ -34,8 +35,12 @@ CUSTOMER_FLEET = [
     {"domain": "shdhygiene.com", "name": "盛鸿达卫生用品", "industry": "婴儿纸尿裤/经期裤"},
     {"domain": "chinabaronhygiene.com", "name": "男爵卫生用品", "industry": "医护级卫生护理"},
     {"domain": "custombentofactory.com", "name": "定制便当盒工厂", "industry": "不锈钢/硅胶便当盒"},
+    {"domain": "customlunchboxfactory.com", "name": "定制野餐包工厂", "industry": "保温野餐包/冷链餐具"},
+    {"domain": "bentoboxmanufacturer.com", "name": "便当盒制造商", "industry": "便携餐盒/儿童餐具"},
     {"domain": "eazylunch.com", "name": "EazyLunch 餐厨", "industry": "便携餐盒/儿童餐具"},
     {"domain": "wishtimetoys.com", "name": "智趣玩具", "industry": "婴幼早教/益智玩具"},
+    {"domain": "earsoontoys.com", "name": "耳顺益智玩具", "industry": "益智早教/发光玩具"},
+    {"domain": "hanmuntoys.com", "name": "汉门玩具", "industry": "户外运动/早教玩具"},
     {"domain": "chengjitoy.com", "name": "澄积玩具", "industry": "澄海塑料玩具出口"},
     {"domain": "hlstonemachine.com", "name": "华隆石材机械", "industry": "数控石材切割机床"},
     {"domain": "shengdamachinery.com", "name": "盛达石材机械", "industry": "石材开采与抛光装备"},
@@ -83,8 +88,8 @@ def audit_single_site(site: dict) -> dict:
 
     return {
         "domain": domain,
-        "name": site["name"],
-        "industry": site["industry"],
+        "name": site.get("name", domain),
+        "industry": site.get("industry", "出海独立站"),
         "live": is_live,
         "sitemap": has_sitemap,
         "sitemap_dpp": has_dpp,
@@ -94,17 +99,34 @@ def audit_single_site(site: dict) -> dict:
     }
 
 def main():
-    print(f"=== B2B Global Brand Site Fleet Auditor (Total {len(CUSTOMER_FLEET)} Sites) ===")
-    print(f"Timestamp: {datetime.utcnow().isoformat()}Z\n")
+    parser = argparse.ArgumentParser(description="Fleet Site Auditor")
+    parser.add_argument("--domain", help="Single domain to audit")
+    parser.add_argument("--domains", help="Comma-separated domains to audit")
+    args = parser.parse_args()
+
+    fleet_to_audit = CUSTOMER_FLEET
+    if args.domain or args.domains:
+        target_str = args.domains or args.domain
+        domains_list = [d.strip().replace("https://", "").replace("http://", "").rstrip("/") for d in target_str.split(",") if d.strip()]
+        fleet_dict = {s["domain"]: s for s in CUSTOMER_FLEET}
+        fleet_to_audit = []
+        for dom in domains_list:
+            if dom in fleet_dict:
+                fleet_to_audit.append(fleet_dict[dom])
+            else:
+                fleet_to_audit.append({"domain": dom, "name": dom, "industry": "目标独立站"})
+
+    print(f"=== B2B Global Brand Site Fleet Auditor (Total {len(fleet_to_audit)} Sites) ===")
+    print(f"Timestamp: {datetime.now(timezone.utc).isoformat()}\n")
 
     results = []
     with ThreadPoolExecutor(max_workers=8) as executor:
-        futures = [executor.submit(audit_single_site, site) for site in CUSTOMER_FLEET]
+        futures = [executor.submit(audit_single_site, site) for site in fleet_to_audit]
         for f in futures:
             results.append(f.result())
 
-    print(f"{'Domain':<26} | {'Status':<6} | {'Sitemap':<7} | {'DPP Map':<7} | {'llms.txt':<8} | {'Robots':<6} | {'Score':<5}")
-    print("-" * 75)
+    print(f"{'Domain':<28} | {'Status':<6} | {'Sitemap':<7} | {'DPP Map':<7} | {'llms.txt':<8} | {'Robots':<6} | {'Score':<5}")
+    print("-" * 78)
 
     for r in sorted(results, key=lambda x: x["health_score"], reverse=True):
         st = "✅ LIVE" if r["live"] else "❌ DOWN"
@@ -112,14 +134,14 @@ def main():
         dpp = "✅ 200" if r["sitemap_dpp"] else "❌ Miss"
         llms = "✅ 200" if r["llms_txt"] else "❌ Miss"
         rob = "✅ 200" if r["robots_txt"] else "❌ Miss"
-        print(f"{r['domain']:<26} | {st:<6} | {sm:<7} | {dpp:<7} | {llms:<8} | {rob:<6} | {r['health_score']:<5}")
+        print(f"{r['domain']:<28} | {st:<6} | {sm:<7} | {dpp:<7} | {llms:<8} | {rob:<6} | {r['health_score']:<5}")
 
     live_count = sum(1 for r in results if r["live"])
     dpp_count = sum(1 for r in results if r["sitemap_dpp"])
     llms_count = sum(1 for r in results if r["llms_txt"])
 
-    print("-" * 75)
-    print(f"Summary: {live_count}/{len(CUSTOMER_FLEET)} Sites Live | {dpp_count}/{len(CUSTOMER_FLEET)} Have MA-DPP | {llms_count}/{len(CUSTOMER_FLEET)} Have llms.txt")
+    print("-" * 78)
+    print(f"Summary: {live_count}/{len(fleet_to_audit)} Sites Live | {dpp_count}/{len(fleet_to_audit)} Have MA-DPP | {llms_count}/{len(fleet_to_audit)} Have llms.txt")
 
 if __name__ == "__main__":
     main()

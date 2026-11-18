@@ -27,8 +27,10 @@ const FLEET_DOMAINS = [
 ];
 
 async function main() {
-  const targetDomains = process.argv[2] ? process.argv[2].split(",") : FLEET_DOMAINS;
-  console.log(`[FLEET-OPERATOR] Starting GSC Fleet Remediation for ${targetDomains.length} domains...`);
+  const targetDomains = (typeof INJECTED_DOMAINS !== "undefined" && Array.isArray(INJECTED_DOMAINS) && INJECTED_DOMAINS.length > 0)
+    ? INJECTED_DOMAINS
+    : FLEET_DOMAINS;
+  console.log(`[FLEET-OPERATOR] Starting GSC Fleet Remediation for ${targetDomains.length} domains: ${targetDomains.join(', ')}...`);
 
   if (typeof taskSpace === "undefined") {
     console.error("[ERROR] Must be executed via `ego-browser nodejs scripts/gsc_fleet_operator.js`");
@@ -36,7 +38,7 @@ async function main() {
   }
 
   const task = await taskSpace(1);
-  const p = await task.newPage({ as: "p_fleet" });
+  const p = await task.newPage();
 
   const summary = {};
 
